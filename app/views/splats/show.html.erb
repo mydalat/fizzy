@@ -20,12 +20,19 @@
   </nav>
 <% end %>
 
-<div class="splat__perma flex justify-center center">
+<div class="splat__perma flex justify-center center margin-block-end-double">
   <%= render @splat %>
 </div>
 
-<div class="splat__notes txt-align-start panel center borderless margin">
-  <%= simple_format @splat.body %>
+<div class="splat__notes txt-align-start panel center pad-block-half pad-inline-end fill-shade border-radius border margin-block-start-double flex align-start" style="--border-color: <%= @splat.color %>; background-color: <%= @splat.color -%>20">
+  <div class="full-width">
+    <%= simple_format @splat.body %>
+  </div>
+
+  <%= tag.button class: "btn txt-small btn--reversed flex-item-no-shrink", style: "--btn-background: #{ @splat.color }" do %>
+    <%= image_tag "pencil.svg", aria: { hidden: true }, size: 24 %>
+    <span class="for-screen-reader">Edit <%= @splat.title %> notes</span>
+  <% end %>
 </div>
 
 <section class="comments panel center borderless margin">
