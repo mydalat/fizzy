@@ -11,14 +11,13 @@ class Bubble < ApplicationRecord
   scope :reverse_chronologically, -> { order created_at: :desc, id: :desc }
   scope :chronologically, -> { order created_at: :asc, id: :asc }
 
+  # FIXME: Compute activity and comment count at write time so it's easier to query for.
   scope :left_joins_comments, -> do
     left_joins(:messages).merge(Message.left_joins_messageable(:comments))
   end
-
   scope :ordered_by_activity, -> do
     left_joins_comments.select("bubbles.*, COUNT(comments.id) + bubbles.boost_count AS activity").group(:id).order("activity DESC")
   end
-
   scope :ordered_by_comments, -> do
     left_joins_comments.select("bubbles.*, COUNT(comments.id) AS comment_count").group(:id).order("comment_count DESC")
   end
