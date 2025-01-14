@@ -14,7 +14,13 @@ end
 include SSHKit::DSL
 
 config_variant = "-#{ARGV[0]}" if ARGV[0]
+
+begin
 config = YAML.load_file("config/deploy#{config_variant}.yml")
+rescue Errno::ENOENT
+  puts "No deploy config found for #{config_variant || "default" }"
+  exit 1
+end
 
 HOSTS = [ config["host"] ]
 REMOTE_USER = config["ssh_user"]
