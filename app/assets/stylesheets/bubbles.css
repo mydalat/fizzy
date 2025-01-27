@@ -57,7 +57,7 @@
 
   .bubble__perma & {
     --bubble-border-width: 0.3rem;
-    --bubble-size: 100% !important;
+    --bubble-size: 40dvh !important;
 
     z-index: 1;
   }
@@ -288,12 +288,6 @@
   .windshield & {
     z-index: 1;
   }
-}
-
-.bubble__perma {
-  block-size: 100%;
-  max-block-size: 40dvh;
-  max-inline-size: 100%;
 }
 
 .bubble__tags {
