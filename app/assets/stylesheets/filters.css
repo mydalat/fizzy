@@ -34,6 +34,7 @@
 .filter__columns {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  max-block-size: 60dvh;
 }
 
 .filter__label {
@@ -56,6 +57,7 @@
   list-style: none;
   margin: 0;
   min-inline-size: 0;
+  overflow-x: auto;
   padding: 0 var(--inline-space);
   position: relative;
   row-gap: 0.2em;
@@ -86,6 +88,8 @@
   --panel-padding: var(--block-space);
 
   inline-size: auto !important;
-  max-inline-size: var(--panel-size) !important;
+  min-inline-size: var(--panel-size);
+  max-block-size: calc(90dvh - (2 * var(--block-space-double)));
+  max-inline-size: calc(100dvw - (2 * var(--block-space-double)));
   z-index: 1;
 }
