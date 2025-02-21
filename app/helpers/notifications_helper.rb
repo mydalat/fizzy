@@ -22,8 +22,25 @@ module NotificationsHelper
   end
 
   def notification_tag(notification, &)
-    link_to notification.resource, id: dom_id(notification), class: "notification border-radius",
-      data: { action: "click->dialog#close", turbo_frame: "_top" }, &
+    tag.div id: dom_id(notification), class: "notification border-radius flex position-relative" do
+      concat(
+        link_to(notification.resource,
+          class: "notification__content border-radius pad shadow fill-white flex align-start txt-align-start gap flex-item-grow",
+          data: { action: "click->dialog#close", turbo_frame: "_top" },
+          &)
+      )
+      concat(notification_mark_read_button(notification))
+    end
+  end
+
+  def notification_mark_read_button(notification)
+    button_to mark_read_notification_path(notification),
+      class: "notification__unread_indicator btn borderless",
+      title: "Mark as read",
+      data: { turbo_frame: "_top" } do
+        concat(image_tag("remove-med.svg", class: "unread_icon", size: 12, aria: { hidden: true }))
+        concat(tag.span("Mark as read", class: "for-screen-reader"))
+    end
   end
 
   def notifications_next_page_link(page)

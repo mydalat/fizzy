@@ -1,0 +1,9 @@
+<%= turbo_stream.remove @notification %>
+
+<% if Current.user.notifications.unread.none? %>
+  <%= turbo_stream.update "notifications_list" do %>
+    <div class="pad border-radius border translucent" style="--border-style: dashed; --border-color: var(--color-ink);">
+      <strong>Nothing new for you.</strong>
+    </div>
+  <% end %>
+<% end %> 

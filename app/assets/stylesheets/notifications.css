@@ -157,17 +157,32 @@
 }
 
 .notification__unread_indicator {
-  --size: 0.8em;
+  --btn-background: var(--color-marker);
+  --btn-border-color: var(--color-bg);
+  --btn-icon-size: 0.7em;
+  --btn-padding: 0;
+  --btn-size: 1.2em;
+  --hover-size: 0;
 
-  padding-block-start: var(--size);
+  inset: var(--block-space) var(--inline-space) auto auto;
+  position: absolute;
+  scale: 0.7;
 
-  .dot {
-    aspect-ratio: 1;
-    background-color: var(--color-marker);
-    border-radius: 50%;
-    block-size: var(--size);
-    inline-size: var(--size);
-    margin-inline-end: var(--inline-space-half);
+  img {
+    visibility: hidden;
+  }
+
+  @media (hover: hover) {
+    .notification:hover & {
+      --btn-background: var(--color-subtle-dark);
+      --btn-border-color: var(--color-subtle-dark);
+
+      scale: 1;
+
+      img {
+        visibility: unset;
+      }
+    }
   }
 
   .notificiations-list--read & {

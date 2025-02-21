@@ -24,7 +24,8 @@
     border var( --transition),
     color var( --transition),
     filter var( --transition),
-    opacity var( --transition);
+    opacity var( --transition),
+    scale var( --transition);
 
   img {
     -webkit-touch-callout: none;
