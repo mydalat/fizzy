@@ -1,0 +1,60 @@
+.expander {
+  --btn-height: calc(1em + 1lh);
+
+  position: relative;
+
+  &[open] {
+    z-index: 1;
+  }
+}
+
+.expander__trigger {
+  position: relative;
+  z-index: 1;
+
+  .icon--caret-down {
+    font-size: 1ch;
+  }
+
+  [open] & {
+    box-shadow: none;
+  }
+}
+
+.expander__content {
+  --btn-border-radius: calc(var(--btn-height) / 2);
+
+  align-items: stretch;
+  flex-direction: column;
+  gap: 4px;
+  inset: 0 auto auto 0;
+  padding-block-start: var(--btn-height);
+  position: absolute;
+  text-wrap: nowrap;
+
+  .expander:has(:hover) & {
+    box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
+  }
+
+  [open] & {
+    inline-size: auto;
+  }
+}
+
+.expander__item {
+  --btn-background: transparent;
+  --btn-border-radius: 0.3em;
+  --btn-border-size: 0;
+  --btn-font-weight: 500;
+  --btn-padding: var(--inline-space-half) 1ch;
+  --hover-size: 0;
+  --outline-color: transparent;
+
+  margin-inline: -1ch;
+  justify-content: flex-start;
+
+  &:hover,
+  &:focus-visible {
+    background-color: oklch(var(--lch-white) / 10%);
+  }
+}

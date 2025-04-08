@@ -7,18 +7,16 @@
   <% else %>
     <div class="flex-inline center position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
 
-      <details class="expandable-btn" open>
-        <summary class="btn borderless expandable-btn__trigger">
-          Close As
+      <details class="expander">
+        <summary class="expander__trigger btn borderless">
+          Close as
           <%= icon_tag "caret-down" %>
         </summary>
-        <div class="btn borderless expandable-btn__content">
-          <button class="expandable-btn__item btn">Here's some really wide content</button>
-          <button class="expandable-btn__item btn">Done</button>
-          <button class="expandable-btn__item btn">Not now</button>
+        <div class="expander__content btn borderless">
+          <button class="expander__item btn">Here's</button>
+          <button class="expander__item btn">Here's a longer thing</button>
         </div>
       </details>
-
 
       <button class="btn btn--dialog borderless" data-action="click->dialog#open:stop">
         <span>Close as</span>
