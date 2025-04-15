@@ -16,7 +16,10 @@
     <div class="fill-selected position-sticky flex align-center gap-half fill-highlight justify-center border-block margin-block-end"
           style="view-transition-name: draft-banner;">
       This is a draft, it’s only visible to you.
-      <%= render "cards/publish", card: @card %>
+
+      <%= button_to card_publish_path(@card), class: "btn txt-small btn--link", style: "--btn-background: #{@card.color}" do %>
+        <span>Post to project</span>
+      <% end %>
     </div>
   <% end %>
 
