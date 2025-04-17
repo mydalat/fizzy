@@ -18,3 +18,32 @@ proxy:
 
 ssh:
   user: app
+
+
+x-beamer-accessory: &beamer-accessory
+  image: basecamp/beamer
+  registry:
+    username: bcbot
+    password:
+      - BASECAMP_REGISTRY_PASSWORD
+  options:
+    user: 1000 # Match the UID of the Rails app, for volume permissions
+  volumes:
+    - fizzy:/storage
+
+
+accessories:
+  beamer-primary:
+    <<: *beamer-accessory
+    service: beamer-primary
+    cmd: beamer primary --remove-after=1h --dir=/storage
+    port: 5000:80
+    roles:
+      - web
+
+  beamer-replica:
+    <<: *beamer-accessory
+    service: beamer-replica
+    cmd: beamer replica --primary=http://fizzy-app-101:5000/ --dir=/storage
+    roles:
+      - web-replica
