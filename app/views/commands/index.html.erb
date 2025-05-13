@@ -2,7 +2,6 @@
   <ul class="terminal__menu flex-column txt-align-start margin-none margin-block-end unpad" aria-label="Recent commands" data-turbo-permanent="true"><%= render partial: "commands/command", collection: @commands %></ul>
 
 
-  <pre id="chat-responses"></pre>
-  <p id="chat-insight" style="overflow: scroll; max-height: 400px;"></p>
+  <div class="terminal--output" data-terminal-target="output"></div>
   <%= render "commands/help" %>
 <% end %>

@@ -6,9 +6,10 @@
         terminal_error_class: "terminal--error",
         terminal_confirmation_class: "terminal--confirmation",
         terminal_help_class: "terminal--showing-help",
+        terminal_output_class: "terminal--showing-output",
         toggle_class_toggle_class: "terminal--open",
         turbo_permanent: true,
-        action: "keydown->terminal#handleKeyPress keydown->navigable-list#navigate focusin->navigable-list#select keydown.esc->toggle-class#remove:stop keydown.esc->terminal#focus keydown.esc->navigable-list#selectLast keydown.esc@document->terminal#hideHelpMenu" } do %>
+        action: "keydown->terminal#handleKeyPress keydown->navigable-list#navigate focusin->navigable-list#select keydown.esc->toggle-class#remove:stop keydown.esc->terminal#focus keydown.esc->navigable-list#selectLast keydown.esc@document->terminal#hideMenus" } do %>
   <%= turbo_frame_tag :recent_commands, src: commands_path, refresh: "morph" %>
 
   <%= render "commands/form" %>

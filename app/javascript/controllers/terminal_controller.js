@@ -1,16 +1,15 @@
 import { Controller } from "@hotwired/stimulus"
 import { HttpStatus } from "helpers/http_helpers"
-import { delay, nextFrame } from "helpers/timing_helpers"
 import { marked } from "marked"
 
 export default class extends Controller {
-  static targets = [ "input", "form", "confirmation", "redirected" ]
-  static classes = [ "error", "confirmation", "help" ]
+  static targets = [ "input", "form", "output", "confirmation", "redirected" ]
+  static classes = [ "error", "confirmation", "help", "output" ]
   static values = { originalInput: String, waitingForConfirmation: Boolean, autoSubmitAfterRedirection: Boolean }
 
   connect() {
     if (this.waitingForConfirmationValue) { this.focus() }
-    if (this.autoSubmitAfterRedirectionValue) { this.submitAfterRedirection() }
+    if (this.autoSubmitAfterRedirectionValue) { this.#submitAfterRedirection() }
   }
 
   // Actions
@@ -26,13 +25,13 @@ export default class extends Controller {
       event.preventDefault()
       event.stopPropagation()
     } else {
-      this.hideHelpMenu()
+      this.#hideHelpMenu()
     }
   }
 
-  hideHelpMenu() {
-    if (this.#showHelpCommandEntered) { this.#reset() }
-    this.element.classList.remove(this.helpClass)
+  hideMenus() {
+    this.#hideHelpMenu()
+    this.#hideOutput()
   }
 
   handleKeyPress(event) {
@@ -46,12 +45,7 @@ export default class extends Controller {
     const response = event.detail.fetchResponse?.response
 
     if (event.detail.success) {
-      if (response.headers.get("Content-Type")?.includes("application/json")) {
-        response.json().then((responseJson) => {
-          this.element.querySelector("#chat-insight").innerHTML = marked.parse(responseJson.message)
-        })
-      }
-      this.#reset()
+      this.#handleSuccessResponse(response)
     } else if (response) {
       this.#handleErrorResponse(response)
     }
@@ -77,8 +71,22 @@ export default class extends Controller {
     this.element.classList.add(this.helpClass)
   }
 
+  #hideHelpMenu() {
+    if (this.#showHelpCommandEntered) { this.#reset() }
+    this.element.classList.remove(this.helpClass)
+  }
+
   get #isHelpMenuOpened() {
     return this.element.classList.contains(this.helpClass)
+  }
+
+  #handleSuccessResponse(response) {
+    if (response.headers.get("Content-Type")?.includes("application/json")) {
+      response.json().then((responseJson) => {
+        this.#showOutput(marked.parse(responseJson.message))
+      })
+    }
+    this.#reset()
   }
 
   async #handleErrorResponse(response) {
@@ -145,9 +153,18 @@ export default class extends Controller {
     this.formTarget.requestSubmit()
   }
 
-  submitAfterRedirection() {
+  #submitAfterRedirection() {
     this.inputTarget.value = this.originalInputValue
     this.redirectedTarget.value = "redirected"
     this.formTarget.requestSubmit()
+  }
+
+  #showOutput(html) {
+    this.element.classList.add(this.outputClass)
+    this.outputTarget.innerHTML = html
+  }
+
+  #hideOutput(html) {
+    this.element.classList.remove(this.outputClass)
   }
 }
