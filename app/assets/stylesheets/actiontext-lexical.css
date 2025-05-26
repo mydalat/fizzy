@@ -94,7 +94,7 @@ lexical-toolbar {
 
     svg {
       -webkit-touch-callout: none;
-      block-size: 0.9em;
+      block-size: 0.85em;
       fill: currentColor;
       grid-area: 1/1;
       inline-size: auto;
