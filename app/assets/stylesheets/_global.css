@@ -31,6 +31,11 @@
   /* Components */
   --btn-size: 2.65em;
   --footer-height: 3.5rem;
+  --tray-size: clamp(12rem, 25dvw, 24rem);
+
+  @media (max-width: 799px) {
+    --tray-size: var(--footer-height);
+  }
 
   /* Z-index */
   --z-events-column-header: 1;
@@ -278,6 +283,7 @@
     --lch-pink-lighter: 30% 0.03 346;
     --lch-pink-lightest: 25% 0.011 348;
 
+    --color-terminal-bg: var(--color-black);
     --color-terminal-text-light: oklch(var(--lch-green-dark));
 
     --shadow: 0 0 0 1px oklch(var(--lch-black) / 0.42),

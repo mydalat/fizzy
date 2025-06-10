@@ -23,6 +23,7 @@
 
     <%= link_to tag.span("Notifications"), notifications_path,
           class: "btn btn--reversed borderless fill-transparent center txt-uppercase txt-x-small full-width",
+            title: "See all notifications",
           data: { action: "click->dialog#close" } %>
 
     <%= link_to settings_notifications_path,
@@ -33,5 +34,7 @@
     <% end %>
   </div>
 
-  <button class="tray__expander" data-action="dialog#toggle" aria-label="Expand notifications stack"></button>
+  <button class="tray__expander" data-action="dialog#toggle" aria-label="Expand notifications stack">
+    <%= icon_tag "bell" %>
+  </button>
 </section>

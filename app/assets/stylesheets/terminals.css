@@ -12,7 +12,6 @@
     z-index: var(--z-terminal);
 
     @media (prefers-color-scheme: dark) {
-      background-color: var(--color-black);
       border-block-start: 1px solid var(--color-ink-lighter);
     }
   }
