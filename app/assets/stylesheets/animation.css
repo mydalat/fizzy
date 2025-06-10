@@ -33,6 +33,11 @@
     75% { transform: translateX(1rem); }
   }
 
+  @keyframes success {
+    0%  { background-color: var(--color-border-darker); scale: 0.8; }
+    33% { background-color: var(--color-border-darker); scale: 1; }
+  }
+
   @keyframes wobble {
     0%  { transform: rotate(calc(var(--bubble-rotate) + 30deg)); }
     15% { border-radius: 66% 34% 72% 28% / 39% 63% 37% 61%; }
@@ -40,5 +45,9 @@
     33% { border-radius: 46% 54% 61% 39% / 50% 51% 49% 50%; }
     50% { border-radius: 54% 46% 61% 39% / 57% 49% 51% 43%; }
     75% { border-radius: 53% 45% 60% 38% / 56% 48% 50% 42%; }
+  }
+
+  @keyframes zoom-fade {
+    100% { transform: translateY(-1.5em); scale: 2; opacity: 0; }
   }
 }
