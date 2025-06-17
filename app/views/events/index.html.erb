@@ -28,7 +28,7 @@
     <% end %>
   </h1>
   <% if collection = @filter.single_collection || Current.user.collections.first %>
-    <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link txt-x-small margin-block-end", form_class: "center" do %>
+    <%= button_to collection_cards_path(collection), method: :post, class: "btn btn--link txt-x-small margin-block-end-double", form_class: "center" do %>
       <%= icon_tag "add" %>
       <span>Add a card</span>
     <% end %>
