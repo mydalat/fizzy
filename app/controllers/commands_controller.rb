@@ -37,6 +37,9 @@ class CommandsController < ApplicationController
     end
 
     def respond_with_execution_result(result)
+      # This saves unnecessary back and forth between server and client (e.g: to redirect)-
+      result = result.is_a?(Array) && result.one? ? result.first : result
+
       case result
       when Array
         respond_with_composite_response(result)

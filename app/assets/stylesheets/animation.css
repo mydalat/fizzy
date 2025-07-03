@@ -50,4 +50,10 @@
   @keyframes zoom-fade {
     100% { transform: translateY(-1.5em); scale: 2; opacity: 0; }
   }
+
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
 }

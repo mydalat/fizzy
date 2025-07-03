@@ -14,10 +14,9 @@ class Command::Ai::ParserTest < ActionDispatch::IntegrationTest
   end
 
   test "resolve filter string params as ids" do
-    result = parse_command "cards assigned to kevin, tagged with #web, in the collection writebook"
-    assert_equal 1, result.commands.size
+    command = parse_command "cards assigned to kevin, tagged with #web, in the collection writebook"
 
-    url = result.commands.first.url
+    url = command.commands.first.url
     query_string = URI.parse(url).query
     params = Rack::Utils.parse_nested_query(query_string).with_indifferent_access
 

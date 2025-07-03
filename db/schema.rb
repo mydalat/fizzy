@@ -133,6 +133,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_211937) do
     t.index ["stage_id"], name: "index_cards_on_stage_id"
   end
 
+  create_table "closers_filters", id: false, force: :cascade do |t|
+    t.integer "closer_id", null: false
+    t.integer "filter_id", null: false
+    t.index ["closer_id"], name: "index_closers_filters_on_closer_id"
+    t.index ["filter_id"], name: "index_closers_filters_on_filter_id"
+  end
+
   create_table "closure_reasons", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "label"

@@ -7,6 +7,7 @@ module Filter::Resources
     has_and_belongs_to_many :stages, class_name: "Workflow::Stage", join_table: "filters_stages"
     has_and_belongs_to_many :assignees, class_name: "User", join_table: "assignees_filters", association_foreign_key: "assignee_id"
     has_and_belongs_to_many :creators, class_name: "User", join_table: "creators_filters", association_foreign_key: "creator_id"
+    has_and_belongs_to_many :closers, class_name: "User", join_table: "closers_filters", association_foreign_key: "closer_id"
   end
 
   def resource_removed(resource)

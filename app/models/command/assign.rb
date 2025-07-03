@@ -37,11 +37,11 @@ class Command::Assign < Command
     end
   end
 
-  private
-    def assignees
-      User.where(id: assignee_ids)
-    end
+  def assignees
+    User.where(id: assignee_ids)
+  end
 
+  private
     def assign(assignee, card, toggled_assignees_by_card)
       unless card.assigned_to?(assignee)
         toggled_assignees_by_card[card.id] << assignee.id

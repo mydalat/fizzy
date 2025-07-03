@@ -86,10 +86,10 @@ export default class extends Controller {
     }
   }
 
-  #handleArrowKey(event, fn) {
+  #handleArrowKey(event, fn, preventDefault = true) {
     if (event.shiftKey || event.metaKey || event.ctrlKey) { return }
     fn.call()
-    event.preventDefault()
+    if (preventDefault) { event.preventDefault() }
   }
 
   #clickCurrentItem(event) {
@@ -119,10 +119,10 @@ export default class extends Controller {
       this.#handleArrowKey(event, this.#selectPrevious.bind(this))
     },
     ArrowRight(event) {
-      this.#handleArrowKey(event, this.#selectNext.bind(this))
+      this.#handleArrowKey(event, this.#selectNext.bind(this), false)
     },
     ArrowLeft(event) {
-      this.#handleArrowKey(event, this.#selectPrevious.bind(this))
+      this.#handleArrowKey(event, this.#selectPrevious.bind(this), false)
     },
     Enter(event) {
       if (event.shiftKey) {

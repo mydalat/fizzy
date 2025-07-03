@@ -4,21 +4,36 @@
       data: {
         controller: "form",
         terminal_target: "form",
-        action: "turbo:submit-start->terminal#commandSubmitted turbo:submit-end->terminal#focus keydown.meta+k@document->terminal#focus:prevent keydown.ctrl+k@document->terminal#focus:prevent keydown.enter->terminal#executeCommand keydown.esc->terminal#hideMenus turbo:submit-end->terminal#handleCommandResponse"
+        action: "
+            keydown.enter->terminal#submitCommand
+            keydown.up->toggle-class#add:prevent
+            keydown.up->navigable-list#selectCurrentOrReset:stop
+            terminal#hideError
+            turbo:submit-start->terminal#commandSubmitted
+            turbo:submit-end->terminal#focus
+            keydown.meta+k@document->terminal#focus:prevent
+            keydown.ctrl+k@document->terminal#focus:prevent
+            keydown.enter->terminal#executeCommand
+            keydown.esc->terminal#hideMenus
+            turbo:submit-end->terminal#handleCommandResponse
+        "
       } do %>
   <label class="terminal__label txt-nowrap" for="command">Fizzy do &gt;</label>
 
-  <%= text_field_tag "command", nil,
-        autocomplete: "off",
-        autocorrect: "off",
-        autocapitalize: "off",
+  <%= rich_textarea_tag "command", nil,
+        toolbar: false,
         class: "terminal__input input fill-transparent unpad",
+        "single-line": true,
+        attachments: false,
         data: {
-          terminal_target: "input",
-          action: "keydown.up->toggle-class#add:prevent keydown.up->navigable-list#selectCurrentOrReset:stop terminal#hideError"
+          terminal_target: "input"
         },
-        placeholder: platform.desktop? ? "Press #{ hotkey_label(["ctrl", "K"]) } to search or type commands…" : "Search or type commands…",
-        spellcheck: "false" %>
+        placeholder: platform.desktop? ? "Press #{ hotkey_label(["ctrl", "K"]) } to search or type /commands…" : "Search or type /commands…",
+        spellcheck: "false" do %>
+    <%= global_mentions_prompt %>
+    <%= tags_prompt %>
+    <%= commands_prompt %>
+  <% end %>
 
   <%= hidden_field_tag "confirmed", nil, data: { terminal_target: "confirmation" } %>
 <% end %>

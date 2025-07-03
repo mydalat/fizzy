@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include Accessor, ActionText::Attachable, Assignee, Mentionable, Named, Role, Searcher,
+  include Accessor, Attachable, Assignee, Mentionable, Named, Role, Searcher,
     SignalUser, Transferable
   include Timelined # Depends on Accessor
 

@@ -10,6 +10,7 @@ module Filter::Params
     card_ids: [],
     assignee_ids: [],
     creator_ids: [],
+    closer_ids: [],
     collection_ids: [],
     stage_ids: [],
     tag_ids: [],
@@ -50,6 +51,7 @@ module Filter::Params
       params[:card_ids]          = card_ids
       params[:assignee_ids]      = assignees.ids
       params[:creator_ids]       = creators.ids
+      params[:closer_ids]        = closers.ids
     end.compact_blank.reject(&method(:default_value?))
   end
 

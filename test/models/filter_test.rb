@@ -153,4 +153,19 @@ class FilterTest < ActiveSupport::TestCase
     cards(:shipping).closure.update_columns created_at: Time.current
     assert_includes filter.cards, cards(:shipping)
   end
+
+  test "completed by" do
+    cards(:shipping).closure.update_columns user_id: users(:david).id
+
+    filter = users(:david).filters.new closer_ids: [ users(:david).id ]
+    assert_includes filter.cards, cards(:shipping)
+
+    filter = users(:david).filters.new closer_ids: [ users(:jz).id ]
+    assert_not_includes filter.cards, cards(:shipping)
+
+    cards(:shipping).closure.update_columns user_id: users(:jz).id
+
+    filter = users(:david).filters.new closer_ids: [ users(:jz).id ]
+    assert_includes filter.cards, cards(:shipping)
+  end
 end

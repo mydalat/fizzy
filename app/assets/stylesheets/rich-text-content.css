@@ -20,7 +20,7 @@
     :where(h5) { font-size: 0.83em; }
     :where(h6) { font-size: 0.67em; }
 
-    :where(p, ul, ol, dl, blockquote, figure:not(.attachment--custom), .attachment:not(.attachment--custom)) {
+    :where(p, ul, ol, dl, blockquote, figure, .attachment) {
       margin-block: var(--block-margin);
       overflow-wrap: break-word;
       text-wrap: pretty;
@@ -51,173 +51,6 @@
       a:has(&) {
         display: inline-block;
       }
-    }
-
-    /* Attachments */
-    .attachment:not(.attachment--custom) {
-      block-size: auto;
-      display: inline-block;
-      inline-size: 100%;
-      position: relative;
-      margin-inline: 0;
-      max-inline-size: 100%;
-
-      &:is(figure) img,
-      &:is(figure) video {
-        block-size: auto;
-        display: block;
-        margin-inline: auto;
-        max-inline-size: 100%;
-        user-select: none;
-      }
-
-      :where(progress) {
-        inline-size: 100%;
-        margin: auto;
-      }
-    }
-
-    .attachment__caption {
-      color: var(--color-ink-dark);
-      display: flex;
-      font-size: var(--text-small);
-      flex-wrap: wrap;
-      line-height: 1.3;
-      column-gap: 0.5ch;
-      justify-content: center;
-      margin: var(--block-space-half) var(--inline-space);
-      text-align: center;
-
-      .input {
-        inline-size: 100%;
-        max-inline-size: 100%;
-        text-align: center;
-
-        @supports (field-sizing: content) {
-          field-sizing: content;
-          inline-size: auto;
-          min-inline-size: 20ch;
-        }
-      }
-    }
-
-    .attachment__figure {
-      --hover-size: 0;
-    }
-
-    .attachment--file {
-      align-items: center;
-      display: inline-flex;
-
-      .attachment__caption {
-        flex-direction: column;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        text-align: start;
-
-        strong {
-          color: var(--color-ink);
-        }
-      }
-    }
-
-    .attachment__icon {
-      aspect-ratio: 4/5;
-      background-color: var(--color-canvas);
-      block-size: calc(2.5lh + 0.5ch);
-      border: 2px solid var(--color-ink-medium);
-      border-radius: 0.3em;
-      color: var(--color-ink-dark);
-      display: inline-grid;
-      font-size: var(--text-small);
-      font-weight: 800;
-      inline-size: auto;
-      overflow: clip;
-      padding-block-start: 0.4lh;
-      place-content: center;
-      position: relative;
-      text-transform: uppercase;
-
-      &::before {
-        background-color: var(--color-ink-medium);
-        block-size: 0.5lh;
-        content: "";
-        display: block;
-        inline-size: 100%;
-        inset: 0 0 auto;
-        position: absolute;
-      }
-
-      .attachment--psd &,
-      .attachment--key &,
-      .attachment--sketch &,
-      .attachment--ai &,
-      .attachment--eps &,
-      .attachment--indd &,
-      .attachment--svg &,
-      .attachment--ppt &,
-      .attachment--pptx & {
-        color: oklch(var(--lch-red-dark));
-        background-color: oklch(var(--lch-red-lightest));
-        border-color: oklch(var(--lch-red-medium));
-
-        &::before {
-          background-color: oklch(var(--lch-red-medium));
-        }
-      }
-
-      .attachment--css &,
-      .attachment--php &,
-      .attachment--json &,
-      .attachment--htm &,
-      .attachment--html &,
-      .attachment--rb &,
-      .attachment--erb &,
-      .attachment--ts &,
-      .attachment--js & {
-        color: oklch(var(--lch-purple-dark));
-        background-color: oklch(var(--lch-purple-lightest));
-        border-color: oklch(var(--lch-purple-medium));
-
-        &::before {
-          background-color: oklch(var(--lch-purple-medium));
-        }
-      }
-
-      .attachment--txt &,
-      .attachment--pages &,
-      .attachment--rtf &,
-      .attachment--md &,
-      .attachment--doc &,
-      .attachment--docx & {
-        color: oklch(var(--lch-blue-dark));
-        background-color: oklch(var(--lch-blue-lightest));
-        border-color: oklch(var(--lch-blue-medium));
-
-        &::before {
-          background-color: oklch(var(--lch-blue-medium));
-        }
-      }
-
-      .attachment--csv &,
-      .attachment--numbers &,
-      .attachment--xls &,
-      .attachment--xlsx & {
-        color: oklch(var(--lch-green-dark));
-        background-color: oklch(var(--lch-green-lightest));
-        border-color: oklch(var(--lch-green-medium));
-
-        &::before {
-          background-color: oklch(var(--lch-green-medium));
-        }
-      }
-    }
-
-    .attachment__link {
-      --hover-size: 0;
-
-      color: var(--color-link);
-      text-decoration: underline;
     }
 
     /* Avoid extra space due to empty paragraphs */
@@ -320,44 +153,227 @@
         }
       }
     }
+  }
 
-    /* Custom attachments such as mentions, etc. */
-    .attachment--custom {
-      display: inline;
-      padding: 0;
-      margin: 0;
-      white-space: normal;
+  /* Attachments
+  /* ------------------------------------------------------------------------ */
+
+  .attachment {
+    block-size: auto;
+    display: inline-block;
+    inline-size: 100%;
+    position: relative;
+    margin-inline: 0;
+    max-inline-size: 100%;
+
+    &:is(figure) img,
+    &:is(figure) video {
+      block-size: auto;
+      display: block;
+      margin-inline: auto;
+      max-inline-size: 100%;
+      user-select: none;
     }
 
-    .attachment--custom,
-    action-text-attachment[content-type^='application/vnd.actiontext'] {
-      --attachment-image-size: 1em;
-      --attachment-selected-color: oklch(var(--lch-blue-dark));
+    :where(progress) {
+      inline-size: 100%;
+      margin: auto;
+    }
+  }
 
-      align-items: center;
-      display: inline-flex;
-      gap: 0.25ch;
-      position: relative;
-      vertical-align: bottom;
+  .attachment__caption {
+    color: var(--color-ink-dark);
+    display: flex;
+    font-size: var(--text-small);
+    flex-wrap: wrap;
+    line-height: 1.3;
+    column-gap: 0.5ch;
+    justify-content: center;
+    margin: var(--block-space-half) var(--inline-space);
+    text-align: center;
 
-      lexical-editor & {
-        cursor: pointer;
-      }
+    .input {
+      --input-border-radius: 0.3em;
+      --input-border-size: 0;
+      --input-padding: 0;
 
-      img {
-        block-size: var(--attachment-image-size);
-        border-radius: 50%;
-        inline-size: var(--attachment-image-size);
-      }
+      color: var(--color-ink-dark);
+      inline-size: 100%;
+      max-inline-size: 100%;
+      text-align: center;
 
-      &.node--selected {
-        background: var(--attachment-selected-color);
-        box-shadow:
-          -0.25ch 0 0 var(--attachment-selected-color),
-           0.5ch 0 0 var(--attachment-selected-color);
-        border-radius: 99rem;
-        color: var(--color-ink-inverted);
+      @supports (field-sizing: content) {
+        field-sizing: content;
+        inline-size: auto;
+        min-inline-size: 20ch;
       }
     }
+  }
+
+  .attachment__figure {
+    --hover-size: 0;
+  }
+
+  .attachment--file {
+    align-items: center;
+    display: inline-flex;
+
+    .attachment__caption {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      text-align: start;
+
+      strong {
+        color: var(--color-ink);
+      }
+    }
+  }
+
+  .attachment__icon {
+    aspect-ratio: 4/5;
+    background-color: var(--color-canvas);
+    block-size: calc(2.5lh + 0.5ch);
+    border: 2px solid var(--color-ink-medium);
+    border-radius: 0.3em;
+    color: var(--color-ink-dark);
+    display: inline-grid;
+    font-size: var(--text-small);
+    font-weight: 800;
+    inline-size: auto;
+    overflow: clip;
+    padding-block-start: 0.4lh;
+    place-content: center;
+    position: relative;
+    text-transform: uppercase;
+
+    &::before {
+      background-color: var(--color-ink-medium);
+      block-size: 0.5lh;
+      content: "";
+      display: block;
+      inline-size: 100%;
+      inset: 0 0 auto;
+      position: absolute;
+    }
+
+    .attachment--psd &,
+    .attachment--key &,
+    .attachment--sketch &,
+    .attachment--ai &,
+    .attachment--eps &,
+    .attachment--indd &,
+    .attachment--svg &,
+    .attachment--ppt &,
+    .attachment--pptx & {
+      color: oklch(var(--lch-red-dark));
+      background-color: oklch(var(--lch-red-lightest));
+      border-color: oklch(var(--lch-red-medium));
+
+      &::before {
+        background-color: oklch(var(--lch-red-medium));
+      }
+    }
+
+    .attachment--css &,
+    .attachment--php &,
+    .attachment--json &,
+    .attachment--htm &,
+    .attachment--html &,
+    .attachment--rb &,
+    .attachment--erb &,
+    .attachment--ts &,
+    .attachment--js & {
+      color: oklch(var(--lch-purple-dark));
+      background-color: oklch(var(--lch-purple-lightest));
+      border-color: oklch(var(--lch-purple-medium));
+
+      &::before {
+        background-color: oklch(var(--lch-purple-medium));
+      }
+    }
+
+    .attachment--txt &,
+    .attachment--pages &,
+    .attachment--rtf &,
+    .attachment--md &,
+    .attachment--doc &,
+    .attachment--docx & {
+      color: oklch(var(--lch-blue-dark));
+      background-color: oklch(var(--lch-blue-lightest));
+      border-color: oklch(var(--lch-blue-medium));
+
+      &::before {
+        background-color: oklch(var(--lch-blue-medium));
+      }
+    }
+
+    .attachment--csv &,
+    .attachment--numbers &,
+    .attachment--xls &,
+    .attachment--xlsx & {
+      color: oklch(var(--lch-green-dark));
+      background-color: oklch(var(--lch-green-lightest));
+      border-color: oklch(var(--lch-green-medium));
+
+      &::before {
+        background-color: oklch(var(--lch-green-medium));
+      }
+    }
+  }
+
+  .attachment__link {
+    --hover-size: 0;
+
+    color: var(--color-link);
+    text-decoration: underline;
+  }
+
+  /* Custom attachments such as mentions, etc. */
+  action-text-attachment[content-type^='application/vnd.actiontext'] {
+    --attachment-bg-color: transparent;
+    --attachment-image-size: 1em;
+    --attachment-text-color: currentColor;
+
+    display: inline;
+    padding: 0;
+    margin: 0;
+    white-space: normal;
+
+    align-items: center;
+    color: var(--attachment-text-color);
+    display: inline-flex;
+    gap: 0.25ch;
+    position: relative;
+    vertical-align: bottom;
+
+    background: var(--attachment-bg-color);
+    box-shadow:
+      -0.25ch 0 0 var(--attachment-bg-color),
+       0.5ch 0 0 var(--attachment-bg-color);
+    border-radius: 99rem;
+
+    lexical-editor & {
+      cursor: pointer;
+    }
+
+    img {
+      block-size: var(--attachment-image-size);
+      border-radius: 50%;
+      inline-size: var(--attachment-image-size);
+    }
+
+    &.node--selected {
+      --attachment-bg-color: oklch(var(--lch-blue-dark));
+      --attachment-text-color: var(--color-ink-inverted);
+    }
+  }
+
+  [data-lexical-cursor] {
+    animation: blink 1s step-end infinite;
+    block-size: 1lh;
+    border-inline-start: 1px solid currentColor;
+    line-height: inherit;
+    margin-block: 1em;
   }
 }

@@ -12,7 +12,7 @@ class Command::Ai::Parser
 
   def parse(query)
     normalized_query = resolve_named_params_to_ids command_translator.translate(query)
-    build_composite_command_for normalized_query, query
+    build_command_for normalized_query, query
   end
 
   private
@@ -20,7 +20,7 @@ class Command::Ai::Parser
       Command::Ai::Translator.new(context)
     end
 
-    def build_composite_command_for(normalized_query, query)
+    def build_command_for(normalized_query, query)
       query_context = context_from_query(normalized_query)
       resolved_context = query_context || context
 
@@ -43,10 +43,11 @@ class Command::Ai::Parser
     def resolve_named_params_to_ids(normalized_query)
       normalized_query.tap do |query_json|
         if query_context = query_json[:context].presence
-          query_context[:assignee_ids] = query_context[:assignee_ids]&.filter_map { |name| assignee_from(name)&.id }
-          query_context[:creator_ids] = query_context[:creator_ids]&.filter_map { |name| assignee_from(name)&.id }
-          query_context[:collection_ids] = query_context[:collection_ids]&.filter_map { |name| Collection.where("lower(name) like ?", "%#{name.downcase}%").first&.id }
-          query_context[:tag_ids] = query_context[:tag_ids]&.filter_map { |name| ::Tag.find_by_title(name)&.id }
+          query_context[:assignee_ids] = query_context[:assignee_ids]&.filter_map { |name| context.find_user(name)&.id }
+          query_context[:creator_ids] = query_context[:creator_ids]&.filter_map { |name| context.find_user(name)&.id }
+          query_context[:closer_ids] = query_context[:closer_ids]&.filter_map { |name| context.find_user(name)&.id }
+          query_context[:collection_ids] = query_context[:collection_ids]&.filter_map { |name| context.find_collection(name)&.id }
+          query_context[:tag_ids] = query_context[:tag_ids]&.filter_map { |name| context.find_tag(name)&.id }
           query_context.compact!
         end
       end

@@ -462,6 +462,18 @@ columns:
     collation:
     comment:
   - *9
+  closers_filters:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: closer_id
+    cast_type: *3
+    sql_type_metadata: *4
+    'null': false
+    default:
+    default_function:
+    collation:
+    comment:
+  - *19
   closure_reasons:
   - *5
   - *6
@@ -1092,6 +1104,7 @@ primary_keys:
   card_engagements: id
   card_goldnesses: id
   cards: id
+  closers_filters:
   closure_reasons: id
   closures: id
   collection_publications: id
@@ -1135,6 +1148,7 @@ data_sources:
   card_engagements: true
   card_goldnesses: true
   cards: true
+  closers_filters: true
   closure_reasons: true
   closures: true
   collection_publications: true
@@ -1545,6 +1559,39 @@ indexes:
     unique: false
     columns:
     - stage_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  closers_filters:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: closers_filters
+    name: index_closers_filters_on_closer_id
+    unique: false
+    columns:
+    - closer_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: closers_filters
+    name: index_closers_filters_on_filter_id
+    unique: false
+    columns:
+    - filter_id
     lengths: {}
     orders: {}
     opclasses: {}

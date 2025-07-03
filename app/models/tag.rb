@@ -1,5 +1,5 @@
 class Tag < ApplicationRecord
-  include Filterable
+  include Attachable, Filterable
 
   has_many :taggings, dependent: :destroy
   has_many :cards, through: :taggings

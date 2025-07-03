@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/basecamp/actiontext-lexical
-  revision: 8a2cede49ca51e40004a0f03100b3f189b60fdd8
+  revision: fd1512b44665e6bce2667e89211d5b9c21dd6fe5
   specs:
     actiontext-lexical (0.1.0)
       rails (>= 8.0.2)
