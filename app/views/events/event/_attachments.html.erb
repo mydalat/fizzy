@@ -1,8 +1,14 @@
 <% if eventable&.has_attachments? %>
   <span class="event_attachments margin-block-half flex align-center gap-half">
     <% eventable.attachments.each do |attachment| %>
-      <% if attachment.representable? %>
-        <%= image_tag attachment, class: "attachment attachment--image" %>
+      <% size = [800, 600] %>
+      <% width = attachment.metadata["width"] %>
+      <% height = attachment.metadata["height"] %>
+
+      <% if attachment.previewable? %>
+        <%= image_tag url_for(attachment.preview(resize_to_limit: size)), class: "attachment attachment--image", width: width, height: height %>
+      <% elsif attachment.variable? %>
+        <%= image_tag url_for(attachment.variant(resize_to_limit: size)), class: "attachment attachment--image", width: width, height: height %>
       <% else %>
         <div class="attachment attachment--file attachment--<%= attachment.filename.extension -%>">
           <span class="attachment__icon"><%= attachment.filename.extension&.downcase.presence || "unknown" %></span>
