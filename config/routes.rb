@@ -134,11 +134,17 @@ Rails.application.routes.draw do
       scope module: :collections do
         resources :card_previews
       end
+
+      resources :cards, only: :show
     end
   end
 
   direct :published_collection do |collection, options|
     route_for :public_collection, collection.publication.key
+  end
+
+  direct :published_card do |card, options|
+    route_for :public_collection_card, card.collection.publication.key, card
   end
 
   resolve "Card" do |card, options|
