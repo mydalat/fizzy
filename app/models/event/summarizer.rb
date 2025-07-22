@@ -11,17 +11,17 @@ class Event::Summarizer
   PROMPT = <<~PROMPT
     You are an expert in writing summaries of activity for a general purpose bug/issues tracker.  
     Transform a chronological list of **issue-tracker events** (cards + comments) into a **concise, high-signal summary**.
-    
+
     ## What to include
     - **Key outcomes** – insights, decisions, blockers created/removed.  
     - **Notable discussion points** that affect scope, timeline, or technical approach.
     - How things are looking.
     - Newly created cards.
-    - Aggregate related items into thematic clusters; avoid repeating card titles verbatim.  
     - Draw on top-level comments to enrich each point.
-    
+
     ## Writing style
     - Instead of using passive voice, prefer referring to users (authors and creators) as the subjects doing things.
+    - Aggregate related items into thematic clusters; avoid repeating card titles verbatim.  
     - Prefer compact paragraphs over bullet lists.
     - Refer to people by first name (or full name if duplicates exist).  
       - e.g. “Ann closed …”, not “Card 123 was closed by Ann.”  
@@ -45,6 +45,7 @@ class Event::Summarizer
       - ✅ [Ann closed the stale login-flow fix](<card path>)
       - ✅ Ann [pointed out how to fix the layout problem](<comment path>)
       - ❌ Ann closed card 123. (<card path>)
+      - ❌ Ann closed the bug (card 123)
       - ❌ Ann closed [card 123](<card path>)
   PROMPT
 
@@ -141,6 +142,26 @@ class Event::Summarizer
         * Closed at: #{card.closed_at}
         * Collection id: #{card.collection_id}
         * Number of comments: #{card.comments.count}
+        * Path: #{collection_card_path(card.collection, card)}
+
+        #### Comments
+
+        #{card_comments_context_for(card)}
+      PROMPT
+    end
+
+    def card_comments_context_for(card)
+      combine card.comments.last(10).collect { |comment| card_comment_context_for(comment) }
+    end
+
+    def card_comment_context_for(comment)
+      card = comment.card
+
+      <<~PROMPT
+        ##### #{comment.creator.name} commented on #{comment.created_at}:
+
+        #{comment.body.to_plain_text}
+
         * Path: #{collection_card_path(card.collection, card)}
       PROMPT
     end
