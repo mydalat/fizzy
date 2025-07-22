@@ -1,10 +1,12 @@
-<% if day_timeline.summarizable? %>
-  <% if day_timeline.summarized? %>
-    <%= render "events/day_timeline/activity_summary", summary: day_timeline.summary %>
-  <% else %>
-    <div id="<%= day_timeline.summary_key %>">
-      <%= auto_submit_form_with url: events_activity_summaries_path(day: day_timeline.day, **day_timeline.filter.as_params), method: :post %>
-      Generating summary...
-    </div>
+<% if day_timeline.summarized? %>
+  <%= render "events/day_timeline/activity_summary", summary: day_timeline.summary %>
+
+  <% if Current.user.staff? %>
+    <p><%= link_to "Prompt sandbox", admin_prompt_debug_path(day: day_timeline.day) %></p>
   <% end %>
+<% else %>
+  <div id="<%= day_timeline.summary_key %>">
+    <%= auto_submit_form_with url: events_activity_summaries_path(day: day_timeline.day, **day_timeline.filter.as_params), method: :post %>
+    Generating summary...
+  </div>
 <% end %>
