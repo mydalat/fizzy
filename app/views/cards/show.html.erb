@@ -1,6 +1,13 @@
 <% @page_title = @card.title %>
 <%= turbo_stream_from @card %>
 
+<% content_for :head do %>
+  <%= tag.meta property: "og:title", content: "#{@card.title} | #{@card.collection.name}" %>
+  <%= tag.meta property: "og:description", content: format_excerpt(@card&.description, length: 200) %>
+  <%= tag.meta property: "og:image", content: @card.image.attached? ? "#{request.base_url}#{url_for(@card.image)}" : "#{request.base_url}/app-icon.png" %>
+  <%= tag.meta property: "og:url", content: collection_card_path(@card.collection, @card) %>
+<% end %>
+
 <% content_for :header do %>
   <% if @card.creating? && @card.can_recover_abandoned_creation? %>
     <div class="fill-selected position-sticky flex align-center gap-half justify-center border-block margin-block-end"
