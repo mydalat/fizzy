@@ -1,5 +1,8 @@
 <section id="doing-cards" class="cards cards--doing is-collapsed" style="--card-color: <%= stage.color if defined?(stage) && stage %>"
-    data-controller="toggle-class" data-toggle-class-toggle-class="is-collapsed">
+    data-controller="toggle-class" 
+    data-toggle-class-toggle-class="is-collapsed"
+    data-drag-and-drop-target="container"
+    data-drop-target="doing">
   <% 
     filtered_records = if defined?(stage) && stage
       page.records.select { |card| card.stage == stage }

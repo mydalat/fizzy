@@ -98,6 +98,7 @@
     }
 
     .cards__expander {
+      background-color: color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
       flex-direction: row-reverse;
       gap: 0.5ch;
 
@@ -106,6 +107,12 @@
         display: flex;
         flex-direction: column;
         justify-content: start;
+      }
+
+      .cards:not(.is-collapsed) & {
+        margin-block-start: calc(var(--cards-gap) * -1.5);
+        margin-inline: calc(var(--cards-gap) * -1);
+        padding: var(--cards-gap);
       }
     }
 
@@ -401,6 +408,9 @@
 
   .cards--doing {
     margin-block: var(--cards-gap);
+    border: var(--inline-space) solid color-mix(in srgb, var(--card-color) 30%, var(--color-canvas));
+    border-radius: 0.2em;
+    box-shadow: var(--shadow);
   
     @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
