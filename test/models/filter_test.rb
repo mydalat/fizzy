@@ -17,9 +17,6 @@ class FilterTest < ActiveSupport::TestCase
     filter = users(:david).filters.new creator_ids: [ users(:david).id ], tag_ids: [ tags(:mobile).id ]
     assert_equal [ cards(:layout) ], filter.cards
 
-    filter = users(:david).filters.new stage_ids: [ workflow_stages(:qa_on_hold).id ]
-    assert_equal [ cards(:logo), cards(:layout), @new_card, cards(:text) ], filter.cards
-
     filter = users(:david).filters.new assignment_status: "unassigned", collection_ids: [ @new_collection.id ]
     assert_equal [ @new_card ], filter.cards
 
@@ -116,10 +113,7 @@ class FilterTest < ActiveSupport::TestCase
   test "summary" do
     assert_equal "Newest, #mobile, and assigned to JZ", filters(:jz_assignments).summary
 
-    filters(:jz_assignments).update!(stages: workflow_stages(:qa_triage, :qa_in_progress))
-    assert_equal "Newest, #mobile, assigned to JZ, and staged in Triage or In progress", filters(:jz_assignments).summary
-
-    filters(:jz_assignments).update!(stages: [], assignees: [], tags: [], collections: [ collections(:writebook) ])
+    filters(:jz_assignments).update!(assignees: [], tags: [], collections: [ collections(:writebook) ])
     assert_equal "Newest", filters(:jz_assignments).summary
 
     filters(:jz_assignments).update!(indexed_by: "stalled", sorted_by: "latest")

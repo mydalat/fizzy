@@ -43,7 +43,7 @@ module Filter::Params
 
   def used?(ignore_collections: false)
     tags.any? || assignees.any? || creators.any? || closers.any? ||
-      stages.any? || terms.any? || card_ids&.any? || (!ignore_collections && collections.present?) ||
+      terms.any? || card_ids&.any? || (!ignore_collections && collections.present?) ||
       assignment_status.unassigned? || !indexed_by.all? || !sorted_by.latest?
   end
 
@@ -59,7 +59,6 @@ module Filter::Params
       params[:terms]             = terms
       params[:tag_ids]           = tags.ids
       params[:collection_ids]    = collections.ids
-      params[:stage_ids]         = stages.ids
       params[:card_ids]          = card_ids
       params[:assignee_ids]      = assignees.ids
       params[:creator_ids]       = creators.ids
