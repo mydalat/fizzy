@@ -248,7 +248,7 @@
   }
 
   .attachment--file {
-    --attachment-icon-color: var(--lexxy-color-text-subtle);
+    --attachment-icon-color: var(--color-ink-medium);
 
     align-items: center;
     display: flex;
@@ -265,6 +265,15 @@
     .attachment__name {
       color: var(--color-ink);
       font-weight: bold;
+    }
+
+    /* Video attachments don't have an identifiable class, but we need to
+     * make sure the caption is always below the video */
+    &:has(video) {
+      .attachment__caption {
+        flex: none;
+        inline-size: 100%;
+      }
     }
   }
 
