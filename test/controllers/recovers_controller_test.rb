@@ -7,6 +7,7 @@ class Cards::RecoversControllerTest < ActionDispatch::IntegrationTest
 
   test "create" do
     abandoned_card = collections(:writebook).cards.create! creator: users(:kevin)
+    travel_to 2.seconds.from_now
     abandoned_card.update!(title: "An edited title")
     unsaved_card = collections(:writebook).cards.create! creator: users(:kevin)
 

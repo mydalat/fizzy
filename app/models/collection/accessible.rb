@@ -53,7 +53,10 @@ module Collection::Accessible
 
   private
     def grant_access_to_creator
-      accesses.create(user: creator, involvement: :watching)
+      # Don't interfere with the abandon cards system
+      Access.no_touching do
+        accesses.create(user: creator, involvement: :watching)
+      end
     end
 
     def grant_access_to_everyone
