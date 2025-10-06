@@ -108,8 +108,8 @@
     --input-border-radius: 5em;
     --input-padding: 0.5em 2.3em 0.5em 1.3em;
 
-    inline-size: 22ch;
-    min-inline-size: 22ch;
+    inline-size: 25ch;
+    min-inline-size: 25ch;
 
     .filters:not(.filters--expanded, .filters--has-filters-set) & {
       margin-inline-end: calc((var(--btn-size) + var(--inline-space-half) + 0.25em) * -1);
