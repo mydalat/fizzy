@@ -35,6 +35,7 @@
         clip-path: none !important;
         inline-size: auto !important;
         opacity: 1;
+        transform: translate3d(0, 0, 0); /* Fixes Safari overflow rendering bug */
         transition-delay: var(--tooltip-delay);
         translate: -50% -100%;
         z-index: var(--z-tooltip);

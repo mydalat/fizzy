@@ -139,6 +139,10 @@
       position: relative;
       z-index: 1;
     }
+
+    &:has([data-controller="tooltip"]:hover) {
+      z-index: var(--z-tooltip);
+    }
   }
 
   .card-perma__actions--left { grid-area: actions-left; }
