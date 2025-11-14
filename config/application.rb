@@ -30,5 +30,11 @@ module Fizzy
     # include the tenant in query logs
     config.active_record.query_log_tags_enabled = true
     config.active_record.query_log_tags = [ :tenant ]
+
+    # Enable debug mode for Rails event logging so we get SQL query logs.
+    # This was made necessary by the change in https://github.com/rails/rails/pull/55900
+    config.after_initialize do
+      Rails.event.debug_mode = true
+    end
   end
 end
