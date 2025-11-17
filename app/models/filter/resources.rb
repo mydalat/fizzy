@@ -18,7 +18,7 @@ module Filter::Resources
   end
 
   def boards
-    creator.boards.where id: super.ids
+    @boards ||= creator.boards.where id: super.ids
   end
 
   def board_titles

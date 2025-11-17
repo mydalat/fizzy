@@ -54,12 +54,13 @@ gem "autotuner"
 gem "benchmark" # indirect dependency, being removed from Ruby 3.5 stdlib so here to quash warnings
 
 group :development, :test do
-  gem "debug"
-  gem "bundler-audit", require: false
   gem "brakeman", require: false
-  gem "rubocop-rails-omakase", require: false
-  gem "letter_opener"
+  gem "bundler-audit", require: false
+  gem "debug"
   gem "faker"
+  gem "letter_opener"
+  gem "rack-mini-profiler"
+  gem "rubocop-rails-omakase", require: false
 end
 
 group :development do

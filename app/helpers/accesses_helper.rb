@@ -27,7 +27,7 @@ module AccessesHelper
   end
 
   def board_watchers_list(board)
-    watchers = board.watchers
+    watchers = board.watchers.with_avatars
 
     displayed_watchers = watchers.limit(MAX_DISPLAYED_WATCHERS)
     overflow_count = watchers.count - MAX_DISPLAYED_WATCHERS

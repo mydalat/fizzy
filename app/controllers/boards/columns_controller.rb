@@ -4,7 +4,7 @@ class Boards::ColumnsController < ApplicationController
   before_action :set_column, only: %i[ show update destroy ]
 
   def show
-    set_page_and_extract_portion_from @column.cards.active.latest.with_golden_first
+    set_page_and_extract_portion_from @column.cards.active.latest.with_golden_first.preloaded
     fresh_when etag: @page.records
   end
 

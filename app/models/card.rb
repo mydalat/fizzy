@@ -19,8 +19,8 @@ class Card < ApplicationRecord
   scope :reverse_chronologically, -> { order created_at:     :desc, id: :desc }
   scope :chronologically,         -> { order created_at:     :asc,  id: :asc  }
   scope :latest,                  -> { order last_active_at: :desc, id: :desc }
-  scope :with_users,              -> { preload(creator: [ :avatar_attachment, :account ], assignees: [ :avatar_attachment, :account ]) }
-  scope :preloaded,               -> { with_users.preload(:board, :column, :tags, :steps, :closure, :not_now, :goldness, :activity_spike) }
+  scope :with_users,              -> { preload(creator: [:avatar_attachment, :account], assignees: [:avatar_attachment, :account]) }
+  scope :preloaded,               -> { with_users.preload(:column, :tags, :steps, :closure, :goldness, :activity_spike, :image_attachment, board: [:entropy], not_now: [ :user ]).with_rich_text_description_and_embeds }
 
   scope :indexed_by, ->(index) do
     case index
