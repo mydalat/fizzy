@@ -66,7 +66,7 @@ class Filter < ApplicationRecord
 
   private
     def include_closed_cards?
-      only_closed? || card_ids.present? || creator_ids.present?
+      only_closed? || card_ids.present?
     end
 
     def include_not_now_cards?
