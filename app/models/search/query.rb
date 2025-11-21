@@ -5,6 +5,8 @@ class Search::Query < ApplicationRecord
   validates :terms, presence: true
   before_validation :sanitize_terms
 
+  delegate :to_s, to: :terms
+
   class << self
     def wrap(query)
       if query.is_a?(self)
@@ -13,13 +15,6 @@ class Search::Query < ApplicationRecord
         self.new(terms: query)
       end
     end
-  end
-
-  def to_s
-    # Return unstemmed terms - each adapter handles stemming appropriately:
-    # - SQLite: FTS5 Porter tokenizer stems automatically
-    # - MySQL: Search::Record.matching applies stemming
-    terms.to_s
   end
 
   private
