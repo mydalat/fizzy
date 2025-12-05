@@ -6,6 +6,11 @@ class Cards::CommentsController < ApplicationController
 
   def create
     @comment = @card.comments.create!(comment_params)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.json { head :created, location: card_comment_path(@card, @comment, format: :json) }
+    end
   end
 
   def show
@@ -16,10 +21,20 @@ class Cards::CommentsController < ApplicationController
 
   def update
     @comment.update! comment_params
+
+    respond_to do |format|
+      format.turbo_stream
+      format.json { render :show }
+    end
   end
 
   def destroy
     @comment.destroy
+
+    respond_to do |format|
+      format.turbo_stream
+      format.json { head :no_content }
+    end
   end
 
   private
