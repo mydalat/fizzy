@@ -1,19 +1,19 @@
-<% @page_title = "Enter your email" %>
+<% @page_title = "Nhập email của bạn" %>
 
 <div class="panel panel--centered flex flex-column gap-half">
-  <h1 class="txt-x-large font-weight-black margin-block-end">Get into Fizzy</h1>
+  <h1 class="txt-x-large font-weight-black margin-block-end">Đăng nhập CHIPVN</h1>
 
   <%= form_with url: session_path, class: "flex flex-column gap-half txt-medium" do |form| %>
     <div class="flex align-center gap">
       <label class="flex align-center gap input input--actor">
-        <%= form.email_field :email_address, required: true, class: "input txt-large full-width", autofocus: true, autocomplete: "username", placeholder: "Enter your email address…" %>
+        <%= form.email_field :email_address, required: true, class: "input txt-large full-width", autofocus: true, autocomplete: "username", placeholder: "Nhập địa chỉ email…" %>
       </label>
     </div>
 
-    <p><strong>New here?</strong> <%= link_to "Sign up", new_signup_path %> to create an account. <strong>Already have an account?</strong> Enter your email and we’ll get you signed in.</p>
+    <p><strong>Người dùng mới?</strong> <%= link_to "Đăng ký", new_signup_path %> để tạo tài khoản. <strong>Đã có tài khoản?</strong> Nhập email để đăng nhập.</p>
 
     <button type="submit" id="log_in" class="btn btn--link center txt-medium">
-      <span>Let’s go</span>
+      <span>Tiếp tục</span>
       <%= icon_tag "arrow-right" %>
     </button>
   <% end %>
