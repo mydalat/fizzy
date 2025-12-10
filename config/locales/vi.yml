@@ -184,6 +184,14 @@ vi:
       delete: "Xóa bước này"
 
     default_title: "Chưa đặt tên"
+    no_cards_match_filter: "Không có thẻ nào khớp với bộ lọc này"
+
+    assignments:
+      title: "Giao cho…"
+      me: "Tôi"
+
+    move_to_board:
+      title: "Chuyển thẻ này đến…"
 
   # ============================================================================
   # COLUMNS
@@ -199,6 +207,12 @@ vi:
     move_left: "Di chuyển sang trái"
     move_right: "Di chuyển sang phải"
     delete: "Xóa cột"
+    not_now_title: "Cột: Tạm hoãn"
+    done_title: "Cột: Hoàn thành"
+    drag_cards_here: "Kéo thẻ vào đây"
+    no_cards_here: "Không có thẻ nào"
+    maximize: "Phóng to cột"
+    expand: "Mở rộng cột"
 
   # ============================================================================
   # USERS
@@ -212,6 +226,7 @@ vi:
       change_email: "Đổi email"
       delete_avatar: "Xóa ảnh đại diện"
       delete_avatar_confirm: "Bạn có chắc muốn xóa ảnh đại diện? Hành động này không thể hoàn tác."
+      my_profile: "Hồ sơ của tôi"
 
     status:
       inactive: "không còn trong tài khoản này"
@@ -226,8 +241,25 @@ vi:
     email_change:
       new_email_placeholder: "Địa chỉ email mới"
       already_exists: "Bạn đã có người dùng trong tài khoản này với địa chỉ email đó"
+      title: "Đổi địa chỉ email"
+      instructions: "Nhập địa chỉ email mới, sau đó kiểm tra hộp thư để xác nhận thay đổi."
+      confirm_title: "Xác nhận địa chỉ email mới"
+      check_email: "Kiểm tra hộp thư"
+      email_sent_to_html: "Chúng tôi vừa gửi email đến <strong>%{email}</strong>"
+      confirm_instructions: "Nhấp vào link trong email để xác nhận đây là địa chỉ email bạn muốn sử dụng với Fizzy."
+      confirming_title: "Xác nhận thay đổi email"
+      confirming_message: "Chờ một chút trong khi chúng tôi xác nhận địa chỉ email mới của bạn."
+      link_expired_title: "Link đã hết hạn"
+      link_expired_message: "Link xác nhận email không còn hiệu lực—chúng hết hạn sau 30 phút. Bạn cần thử lại."
+      change_email_button: "Đổi địa chỉ email của tôi"
+      stuck_message_html: "Nếu bạn gặp vấn đề, %{email_link} và chúng tôi sẽ giúp bạn."
+      send_email: "gửi email cho chúng tôi"
 
     logout: "Đăng xuất"
+
+    joins:
+      title: "Tuyệt vời! Bây giờ nhập tên của bạn"
+      name_placeholder: "Họ và tên"
 
   # ============================================================================
   # ACCOUNT
@@ -243,6 +275,8 @@ vi:
       title: "Người trong tài khoản này"
       invite: "Mời người"
       remove_confirm: "Bạn có chắc muốn xóa vĩnh viễn người này khỏi tài khoản?"
+      role_label: "Vai trò: %{role}"
+      remove_user: "Xóa %{name} khỏi tài khoản"
 
     entropy:
       title: "Tự động đóng"
@@ -258,10 +292,17 @@ vi:
       start_button: "Bắt đầu xuất"
       cancel: "Hủy"
       started: "Đã bắt đầu xuất. Bạn sẽ nhận được email khi sẵn sàng."
+      download_title: "Tải xuống dữ liệu"
+      expired_title: "Link tải đã hết hạn"
+      ready_message: "Dữ liệu xuất của bạn đã sẵn sàng. Tải xuống sẽ tự động bắt đầu."
+      download_data: "Tải về dữ liệu"
+      expired_message_html: "Link tải đã hết hạn. Bạn cần %{link}."
+      request_new: "yêu cầu xuất mới"
 
     join_codes:
       title: "Thêm người"
       description: "Chia sẻ link bên dưới để mời người vào tài khoản này"
+      invite_link: "Link mời"
       generate_new: "Tạo mã mới"
       generate_confirm: "Bạn có chắc muốn tạo link mới? Mã cũ sẽ ngừng hoạt động."
       copy_link: "Sao chép link mời"
@@ -271,6 +312,7 @@ vi:
       used_times: "Mã này đã được sử dụng"
       times: "lần"
       remaining: "còn lại"
+      none: "hết"
       change_limit: "Đổi giới hạn"
       change_limit_title: "Đổi giới hạn sử dụng"
       change_limit_label: "Link này có thể được sử dụng bao nhiêu lần để tham gia tài khoản?"
@@ -285,6 +327,10 @@ vi:
       home: "Trang chủ"
       settings_button: "Cài đặt thông báo"
       mark_all_read: "Đánh dấu tất cả đã đọc"
+      previously_seen: "Đã xem trước đó"
+      new_for_you: "Mới cho bạn"
+      nothing_new: "Không có gì mới cho bạn."
+      showing_recent: "Đang hiển thị %{count} thông báo gần nhất (%{hidden} đang ẩn)"
 
     settings:
       title: "Cài đặt thông báo"
@@ -359,6 +405,7 @@ vi:
     placeholder: "Tìm kiếm…"
     label: "Tìm kiếm Fizzy"
     close: "Đóng tìm kiếm"
+    find_placeholder: "Tìm gì đó…"
 
   # ============================================================================
   # SHORTCUTS / FILTERS
@@ -382,10 +429,31 @@ vi:
       across: "trên"
 
   # ============================================================================
+  # TAGS
+  # ============================================================================
+  tags:
+    all_tags: "Tất cả nhãn"
+
+  # ============================================================================
   # WEBHOOKS
   # ============================================================================
   webhooks:
     delete_confirm: "Bạn có chắc muốn xóa vĩnh viễn webhook này?"
+    index:
+      title: "Webhooks"
+      description_1: "Webhooks có thể thông báo cho ứng dụng khác khi có điều gì đó xảy ra trong bảng Fizzy này. Bạn sẽ chọn những sự kiện để đăng ký và cung cấp URL để nhận dữ liệu."
+      description_2: "Ví dụ, bạn có thể tạo webhook gửi thông báo đến chat Campfire trong Basecamp khi có thẻ mới được thêm vào Fizzy."
+      setup_new: "Thiết lập webhook mới"
+    new:
+      title: "Thiết lập Webhook"
+      create_button: "Tạo Webhook"
+    form:
+      name_placeholder: "Đặt tên Webhook này…"
+      payload_url: "URL nhận dữ liệu"
+      payload_url_description: "Đây là URL của ứng dụng sẽ nhận dữ liệu từ Fizzy."
+      url_validation: "Phải là URL http:// hoặc https://"
+      events: "Sự kiện"
+      events_description: "Gọi URL nhận dữ liệu khi những sự kiện này xảy ra:"
 
   # ============================================================================
   # COMMENTS
@@ -393,6 +461,15 @@ vi:
   comments:
     delete_confirm: "Bạn có chắc muốn xóa bình luận này?"
     edit: "Chỉnh sửa bình luận"
+    post: "Đăng"
+    post_title: "Đăng bình luận này"
+
+  # ============================================================================
+  # REACTIONS
+  # ============================================================================
+  reactions:
+    new_reaction: "Biểu cảm mới"
+    add_reaction: "Thêm biểu cảm"
 
   # ============================================================================
   # COMMON / SHARED
