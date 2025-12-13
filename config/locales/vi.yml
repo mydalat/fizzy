@@ -407,6 +407,32 @@ vi:
       clear_all: "Xóa tất cả"
       toggle: "Bật/tắt ngăn thông báo"
 
+    body:
+      assigned_to: "Đã giao cho %{assignees}"
+      self: "bản thân"
+      unassigned_by: "Đã bỏ giao bởi %{creator}"
+      added_by: "Đã thêm bởi %{creator}"
+      moved_to_done: "Đã chuyển sang Hoàn thành bởi %{creator}"
+      reopened_by: "Đã mở lại bởi %{creator}"
+      moved_to_not_now: "Đã chuyển sang Tạm hoãn bởi %{creator}"
+      auto_postponed: "Đã tự động chuyển sang Tạm hoãn do không hoạt động"
+      renamed_by: "Đã đổi tên bởi %{creator}"
+      moved_by: "Đã di chuyển bởi %{creator}"
+      moved_to_column: "Đã chuyển sang %{column} bởi %{creator}"
+      moved_back_to_triage: "Đã chuyển về Có thể? bởi %{creator}"
+      mentioned_you: "%{name} đã nhắc đến bạn"
+      card_number: "Thẻ %{number}"
+
+    buttons:
+      mark_read: "Đánh dấu đã đọc"
+      mark_unread: "Đánh dấu chưa đọc"
+
+    frequency:
+      never: "Không bao giờ"
+      every_few_hours: "Vài giờ một lần"
+      daily: "Hàng ngày"
+      weekly: "Hàng tuần"
+
   # ============================================================================
   # MAILERS
   # ============================================================================
