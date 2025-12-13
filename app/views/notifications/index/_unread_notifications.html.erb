@@ -5,8 +5,8 @@
       <%= button_to t("notifications.index.mark_all_read"), bulk_reading_path, class: "btn txt-small", form: { data: { turbo: false } }, data: { action: "badge#clear" } %>
     </div>
   <% else %>
-    <div class="notifications-list__empty-message pad border-radius border translucent" style="--border-style: dashed; --border-color: var(--color-ink); --border-radius: 0.2em;">
-      <strong><%= t("notifications.index.nothing_new") %></strong>
+    <div class="notifications-list__empty-message blank-slate blank-slate--empty align-self-center">
+      <%= t("notifications.index.nothing_new") %>
     </div>
   <% end %>
 

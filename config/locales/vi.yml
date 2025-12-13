@@ -46,7 +46,9 @@ vi:
       email_placeholder: "Nhập địa chỉ email…"
       new_user: "Người dùng mới?"
       sign_up: "Đăng ký"
+      to_create_account: "để tạo tài khoản."
       existing_user: "Đã có tài khoản?"
+      enter_email_signin: "Nhập email để đăng nhập."
       continue: "Tiếp tục"
       rate_limit_error: "Vui lòng thử lại sau."
 
@@ -279,6 +281,18 @@ vi:
       send_email: "gửi email cho chúng tôi"
 
     logout: "Đăng xuất"
+
+    theme:
+      title: "Giao diện"
+      always_light: "Luôn sáng"
+      always_dark: "Luôn tối"
+      same_as_os: "Theo hệ thống"
+
+    access_tokens:
+      developer: "Nhà phát triển"
+      manage_tokens: "Quản lý"
+      personal_access_tokens: "token truy cập cá nhân"
+      tokens_description: "được sử dụng với Fizzy API."
 
     joins:
       title: "Tuyệt vời! Bây giờ nhập tên của bạn"
@@ -532,6 +546,41 @@ vi:
 
     forms:
       filter_placeholder: "Lọc…"
+
+  # ============================================================================
+  # ACCESS TOKENS (My access tokens)
+  # ============================================================================
+  access_tokens:
+    index:
+      title: "Token truy cập cá nhân"
+      back_link: "Hồ sơ của tôi"
+      description: "Token bạn đã tạo có thể được sử dụng để truy cập Fizzy API."
+      empty_description: "Token truy cập cá nhân có thể được sử dụng như mật khẩu để truy cập Fizzy API. Bạn có thể tạo nhiều token và thu hồi bất kỳ lúc nào."
+      table:
+        description: "Mô tả"
+        permission: "Quyền"
+        created: "Tạo lúc"
+      generate_new: "Tạo token mới"
+
+    new:
+      title: "Tạo token truy cập cá nhân"
+      back_link: "Token"
+      description_label: "Mô tả token"
+      description_placeholder: "VD: Github"
+      permission_label: "Quyền"
+      permission_read: "Chỉ đọc"
+      permission_write: "Đọc + Ghi"
+      submit: "Tạo token"
+      cancel: "Hủy và quay lại"
+
+    show:
+      title: "Token truy cập mới"
+      back_link: "Token"
+      save_warning: "Hãy lưu token này ngay vì bạn sẽ không thể xem lại nó."
+      copy_token: "Sao chép token"
+
+    delete_confirm: "Bạn có chắc muốn thu hồi vĩnh viễn token này?"
+    edit_screen_reader: "Chỉnh sửa token này"
 
   # ============================================================================
   # FILTERS

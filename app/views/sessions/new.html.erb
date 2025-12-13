@@ -10,7 +10,11 @@
       </label>
     </div>
 
-    <p><strong><%= t("sessions.new.new_user") %></strong> <%= link_to t("sessions.new.sign_up"), new_signup_path %> để tạo tài khoản. <strong><%= t("sessions.new.existing_user") %></strong> Nhập email để đăng nhập.</p>
+    <% if Account.accepting_signups? %>
+      <p><strong><%= t("sessions.new.new_user") %></strong> <%= link_to t("sessions.new.sign_up"), new_signup_path %> <%= t("sessions.new.to_create_account") %> <strong><%= t("sessions.new.existing_user") %></strong> <%= t("sessions.new.enter_email_signin") %></p>
+    <% else %>
+      <p><%= t("sessions.new.enter_email_signin") %></p>
+    <% end %>
 
     <button type="submit" id="log_in" class="btn btn--link center txt-medium">
       <span><%= t("sessions.new.continue") %></span>
