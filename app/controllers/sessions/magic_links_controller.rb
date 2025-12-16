@@ -33,7 +33,8 @@ class Sessions::MagicLinksController < ApplicationController
     end
 
     def respond_to_valid_code_from(magic_link)
-      if email_address_pending_authentication_matches?(magic_link.identity.email_address)
+      if ActiveSupport::SecurityUtils.secure_compare(email_address_pending_authentication || "", magic_link.identity.email_address)
+        clear_pending_authentication_token
         start_new_session_for magic_link.identity
 
         respond_to do |format|
@@ -41,7 +42,9 @@ class Sessions::MagicLinksController < ApplicationController
           format.json { render json: { session_token: cookies[:session_token] } }
         end
       else
-        alert_message = "Authentication failed. Please try again."
+        clear_pending_authentication_token
+        alert_message = "Something went wrong. Please try again."
+
         respond_to do |format|
           format.html { redirect_to new_session_path, alert: alert_message }
           format.json { render json: { message: alert_message }, status: :unauthorized }
@@ -53,6 +56,14 @@ class Sessions::MagicLinksController < ApplicationController
       respond_to do |format|
         format.html { redirect_to session_magic_link_path, flash: { shake: true } }
         format.json { render json: { message: "Try another code." }, status: :unauthorized }
+      end
+    end
+
+    def pending_authentication_token
+      if request.format.json?
+        params[:pending_authentication_token]
+      else
+        super
       end
     end
 

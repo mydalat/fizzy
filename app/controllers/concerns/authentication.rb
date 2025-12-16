@@ -108,36 +108,39 @@ module Authentication
       end
     end
 
-    def email_address_pending_authentication_matches?(email_address)
-      if ActiveSupport::SecurityUtils.secure_compare(email_address, email_address_pending_authentication || "")
-        session.delete(:email_address_pending_authentication)
-        true
-      else
-        false
-      end
-    end
-
     def email_address_pending_authentication
-      if request.format.json?
-        verified_pending_authentication_token
-      else
-        session[:email_address_pending_authentication]
-      end
+      pending_authentication_token_verifier.verified(pending_authentication_token)
     end
 
-    def pending_authentication_token_for(email_address)
-      Rails.application.message_verifier(:pending_authentication).generate(email_address, expires_in: 10.minutes)
+    def pending_authentication_token_verifier
+      Rails.application.message_verifier(:pending_authentication)
     end
 
-    def verified_pending_authentication_token
-      Rails.application.message_verifier(:pending_authentication).verified(params[:pending_authentication_token])
+    def pending_authentication_token
+      cookies[:pending_authentication_token]
     end
 
-    def redirect_to_session_magic_link(magic_link, return_to: nil)
+    def clear_pending_authentication_token
+      cookies.delete(:pending_authentication_token)
+    end
+
+    def redirect_to_session_magic_link(magic_link, email_address: magic_link&.identity&.email_address, return_to: nil)
+      expires_at = magic_link&.expires_at || MagicLink::EXPIRATION_TIME.from_now
+
+      cookies[:pending_authentication_token] = {
+        value: pending_authentication_token_verifier.generate(email_address, expires_at: expires_at),
+        httponly: true,
+        same_site: :lax,
+        expires: expires_at
+      }
+
       serve_development_magic_link(magic_link)
-      session[:email_address_pending_authentication] = magic_link.identity.email_address if magic_link
       session[:return_to_after_authenticating] = return_to if return_to
-      redirect_to main_app.session_magic_link_path(script_name: nil)
+
+      respond_to do |format|
+        format.html { redirect_to main_app.session_magic_link_url(script_name: nil) }
+        format.json { render json: { pending_authentication_token: pending_authentication_token }, status: :created }
+      end
     end
 
     def serve_development_magic_link(magic_link)

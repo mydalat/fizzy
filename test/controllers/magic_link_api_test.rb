@@ -67,7 +67,7 @@ class MagicLinkApiTest < ActionDispatch::IntegrationTest
     untenanted do
       post session_magic_link_path(format: :json), params: { code: magic_link.code, pending_authentication_token: pending_token }
       assert_response :unauthorized
-      assert_equal "Authentication failed. Please try again.", @response.parsed_body["message"]
+      assert_equal "Something went wrong. Please try again.", @response.parsed_body["message"]
     end
   end
 

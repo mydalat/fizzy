@@ -11,29 +11,19 @@ class SessionsController < ApplicationController
   def create
     if identity = Identity.find_by_email_address(email_address)
       magic_link = identity.send_magic_link
-    else
+    elsif Account.accepting_signups?
       signup = Signup.new(email_address: email_address)
-      if signup.valid?(:identity_creation)
-        magic_link = signup.create_identity if Account.accepting_signups?
-      else
-        head :unprocessable_entity
-        return
-      end
+      magic_link = signup.create_identity if signup.valid?(:identity_creation)
     end
 
-    serve_development_magic_link magic_link
-
-    respond_to do |format|
-      format.html do
-        if magic_link.present?
-          redirect_to_session_magic_link magic_link
-        else
-          redirect_to session_magic_link_path
-        end
-      end
-
-      format.json do
-        render json: { pending_authentication_token: pending_authentication_token_for(email_address) }, status: :created
+    if magic_link
+      redirect_to_session_magic_link magic_link
+    elsif !Account.accepting_signups?
+      redirect_to_session_magic_link nil, email_address: email_address
+    else
+      respond_to do |format|
+        format.html { redirect_to new_session_path, alert: "Something went wrong" }
+        format.json { render json: { message: "Something went wrong" }, status: :unprocessable_entity }
       end
     end
   end
