@@ -1,5 +1,5 @@
 <% if subscription.current_period_end %>
-  <p class="txt-medium margin-none-block-start"><%= subscription_period_end_action(subscription) %> <strong><%= subscription.current_period_end.to_date.to_fs(:long) %></strong></p>
+  <p class="margin-block-start-half"><%= subscription_period_end_action(subscription) %> <strong><%= subscription.current_period_end.to_date.to_fs(:long) %></strong></p>
 <% end %>
 
 <p>
