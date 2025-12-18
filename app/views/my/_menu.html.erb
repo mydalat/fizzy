@@ -4,8 +4,8 @@
   <%= tag.button class:"nav__trigger input input--select center flex-inline align-center txt-normal", data: {
         action: "click->dialog#open keydown.j@document->hotkey#click keydown.meta+j@document->hotkey#click keydown.ctrl+j@document->hotkey#click",
         controller: "hotkey" } do %>
-    <span><%= image_tag "logo.png" %></span>
-    <svg height="30" viewBox="0 0 110 30" width="110" xmlns="http://www.w3.org/2000/svg"><text x="0" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="900" fill="currentColor">CHIPVN</text></svg>
+    <span><%= image_tag "logo.png", alt: "" %></span>
+    <svg height="30" viewBox="0 0 110 30" width="110" xmlns="http://www.w3.org/2000/svg" title="CHIPVN"><text x="0" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="900" fill="currentColor">CHIPVN</text></svg>
     <kbd class="kbd txt-xx-small hide-on-touch">J</kbd>
   <% end %>
 
