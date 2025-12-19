@@ -35,6 +35,56 @@
     .house-md-content {
       padding: var(--comment-padding-block) 0 0;
     }
+
+    .comment--system & {
+      --comment-padding-block: var(--block-space-half);
+
+      text-align: center;
+
+      &::before {
+        /* Make up space for lack of avatar */
+        content: "";
+        display: flex;
+        inline-size: calc(var(--comment-padding-inline) * 0.9);
+      }
+
+      .comment__avatar {
+        display: none;
+      }
+
+      .comment__author {
+        a { margin: 0 auto; }
+        h3 { margin-inline: auto; }
+        strong { display: none; }
+      }
+
+      .comment__body {
+        padding: 0;
+        text-align: center;
+      }
+
+      .comment__content {
+        --stripe-color: var(--color-ink-lightest);
+
+        background-image: repeating-linear-gradient(
+          45deg in srgb,
+          var(--color-canvas) 0 1px,
+          var(--stripe-color) 1px 10px);
+        padding-inline: var(--comment-padding-inline);
+
+        .comments--system-expanded .comment--system & {
+          --stripe-color: color-mix(in srgb, var(--card-color) 10%, var(--color-canvas));
+        }
+
+        .comment__history {
+          background-color: var(--stripe-color);
+        }
+      }
+
+      .reactions {
+        display: none !important;
+      }
+    }
   }
 
   .comment__author {
@@ -74,6 +124,7 @@
 
     background-color: var(--comment-bg-color);
     border-radius: 0.2em;
+    max-inline-size: calc(100% - calc(var(--comment-padding-inline) * 0.75));
     padding:
       var(--comment-padding-block)
       calc(var(--comment-padding-inline) / 2)
@@ -94,86 +145,28 @@
   }
 
   .comment--system {
-    --comment-padding-block: var(--block-space-half);
-
     display: none;
-    max-inline-size: var(--comment-max);
-    text-align: center;
     transition: var(--dialog-duration) allow-discrete;
     transition-property: display;
 
     .comments--system-expanded & {
-      display: flex;
+      display: contents;
     }
+  }
 
-    &:nth-last-child(1 of &):not(:has(~ * &) *):not(:has(~ &) *):not(:has(~ * &)):not(:has(&)) {
-      /* This unholy selector targets the last system comment in the document */
-      /* Hat-tip, https://css-tip.com/last-element-dom/ */
-      display: flex;
+  /* Show the last system comment */
+  :nth-last-child(1 of .comment--system) {
+    display: contents;
 
-      .comment__history  {
-        display: grid;
-      }
+    .comment__history {
+      display: grid;
     }
+  }
 
-    &:nth-child(1 of &):not(:has(&) ~ * *):not(:has(&) ~ *):not(& ~ * *):not(& *) {
-      /* Targets the first system comment in the document to effectively */
-      /* hide the "Show history" button if there's only one entry */
-      .comment__history  {
-        display: none;
-      }
-    }
-
-    &::before {
-      /* Make up space for lack of avatar */
-      content: "";
-      display: flex;
-      inline-size: calc(var(--comment-padding-inline) * 0.75);
-    }
-
-    .comment__avatar {
+  /* Hide the "Show history" button if there's only one system comment */
+  :nth-child(1 of .comment--system) {
+    .comment__history {
       display: none;
-    }
-
-    .comment__author {
-      a {
-        margin: 0 auto;
-      }
-
-      h3 {
-        margin-inline: auto;
-      }
-
-      strong {
-        display: none;
-      }
-    }
-
-    .comment__body {
-      padding: 0;
-      text-align: center;
-    }
-
-    .comment__content {
-      --stripe-color: var(--color-ink-lightest);
-
-      background-image: repeating-linear-gradient(
-        45deg in srgb,
-        var(--color-canvas) 0 1px,
-        var(--stripe-color) 1px 10px);
-      padding-inline: var(--comment-padding-inline);
-
-      .comments--system-expanded .comment--system & {
-        --stripe-color: color-mix(in srgb, var(--card-color) 10%, var(--color-canvas));
-      }
-
-      .comment__history {
-        background-color: var(--stripe-color);
-      }
-    }
-
-    .reactions {
-      display: none !important;
     }
   }
 }

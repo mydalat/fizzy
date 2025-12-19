@@ -94,6 +94,7 @@
 
   .steps__icon {
     --icon-size: 0.875em;
+
     background-color: var(--card-color);
     block-size: 1.3em;
     border-radius: 50%;
