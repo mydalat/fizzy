@@ -23,17 +23,12 @@
   }
 
   .comment {
-    display: flex;
-    margin-inline: auto;
-    max-inline-size: var(--comment-max);
-    position: relative;
-
-    house-md-toolbar {
-      margin-block-start: calc(var(--comment-padding-block) * -0.5);
-    }
-
-    .house-md-content {
-      padding: var(--comment-padding-block) 0 0;
+    /* Distinguish from the .comment class used for code formatting without extra specificity */
+    &:where(.comments &) {
+      display: flex;
+      margin-inline: auto;
+      max-inline-size: var(--comment-max);
+      position: relative;
     }
 
     .comment-by-system & {
