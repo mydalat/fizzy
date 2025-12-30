@@ -25,6 +25,7 @@ export default class extends Controller {
   }
 
   toggle({ target }) {
+    this.#enableTransitions()
     const column = target.closest('[data-collapsible-columns-target="column"]')
     this.#toggleColumn(column);
   }
@@ -35,13 +36,14 @@ export default class extends Controller {
     }
   }
 
-  async restoreState(event) {
+  async restoreState() {
     await nextFrame()
     await this.#restoreColumnsDisablingTransitions()
   }
 
   focusOnColumn({ target }) {
     if (this.#isCollapsed(target)) {
+      this.#enableTransitions()
       this.#collapseAllExcept(target)
       this.#expand(target)
     }
@@ -52,7 +54,6 @@ export default class extends Controller {
     this.#restoreColumns()
 
     await nextFrame()
-    this.#enableTransitions()
   }
 
   #disableTransitions() {

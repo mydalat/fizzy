@@ -13,7 +13,9 @@ export default class extends Controller {
   }
 
   connect() {
-    this.#updateCounter()
+    if (this.itemTargets.length > 0) {
+      this.#updateCounter()
+    }
   }
 
   itemTargetConnected() {
