@@ -13,8 +13,14 @@ class Search::Highlighter
     result = text.dup
 
     terms.each do |term|
-      result.gsub!(/\b(#{Regexp.escape(term)}\w*)\b/i) do |match|
-        "#{OPENING_MARK}#{match}#{CLOSING_MARK}"
+      if term.match?(Search::CJK_PATTERN)
+        result.gsub!(/(#{Regexp.escape(term)})/i) do |match|
+          "#{OPENING_MARK}#{match}#{CLOSING_MARK}"
+        end
+      else
+        result.gsub!(/\b(#{Regexp.escape(term)}\w*)\b/i) do |match|
+          "#{OPENING_MARK}#{match}#{CLOSING_MARK}"
+        end
       end
     end
 
