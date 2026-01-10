@@ -110,7 +110,7 @@
 
     @media (max-width: 639px) {
       --btn-size: 3em;
-      --icon-size: 70%;
+      --icon-size: 75%;
     }
   }
 
@@ -119,7 +119,7 @@
     .btn--circle-mobile {
       --btn-size: 3em;
       --btn-padding: 0;
-      --icon-size: 70%;
+      --icon-size: 75%;
 
       aspect-ratio: 1;
       inline-size: var(--btn-size);
