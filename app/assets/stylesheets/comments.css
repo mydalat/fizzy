@@ -109,6 +109,13 @@
     &:not:has(lexxy-editor) {
       padding-inline-end: var(--reaction-size);
     }
+
+    /* Add an empty space so the last line of text doesn't overlap with the reaction button */
+    .action-text-content > p:last-child::after {
+      content: "";
+      display: inline-block;
+      inline-size: var(--reaction-size);
+    }
   }
 
   .comment__content {

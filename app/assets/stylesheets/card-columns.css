@@ -849,6 +849,7 @@
     --btn-background: var(--card-color);
 
     color: var(--color-ink-inverted);
+    opacity: 1 !important;
 
     @media (hover: hover) {
       &:hover {

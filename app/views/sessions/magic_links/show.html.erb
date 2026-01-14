@@ -3,7 +3,7 @@
 <div class="panel panel--centered flex flex-column gap-half <%= "shake" if flash[:alert] || flash[:shake] %>">
   <header>
     <h1 class="txt-x-large font-weight-black margin-none"><%= @page_title %></h1>
-    <p class="margin-none-block-start txt-medium"><%= t("sessions.magic_links.instructions") %></p>
+    <p class="margin-none-block-start txt-medium txt-balance"><%= t("sessions.magic_links.instructions") %></p>
   </header>
 
   <%= form_with url: session_magic_link_path, method: :post, html: { data: { controller: "magic-link" } } do |form| %>
@@ -13,7 +13,7 @@
         data: { magic_link_target: "input", action: "keydown.enter->magic-link#submitOnEnter paste->magic-link#submitOnPaste" } %>
   <% end %>
 
-  <p class="txt-small"><%= t("sessions.magic_links.code_expires_in") %> <%= distance_of_time_in_words(MagicLink::EXPIRATION_TIME) %>.</p>
+  <p class="txt-small txt-balance"><%= t("sessions.magic_links.code_expires_in", email: email_address_pending_authentication) %> <%= distance_of_time_in_words(MagicLink::EXPIRATION_TIME) %>.</p>
 </div>
 
 <% if Rails.env.development? && flash[:magic_link_code].present? %>
