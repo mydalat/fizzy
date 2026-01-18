@@ -378,6 +378,7 @@
   }
 
   .cards__menu {
+    position: relative;
     z-index: var(--z-popup);
   }
 

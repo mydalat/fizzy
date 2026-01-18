@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: https://github.com/basecamp/lexxy
-  revision: 2fafd144924c95c25bd4c6656ae04034f7835494
+  revision: 4f0fc4d5773bc6892de70f175440c259974c12a7
   specs:
     lexxy (0.7.0.beta)
       rails (>= 8.0.2)
@@ -225,7 +225,7 @@ GEM
     benchmark (0.5.0)
     bigdecimal (4.0.1)
     bindex (0.8.1)
-    bootsnap (1.20.1)
+    bootsnap (1.21.1)
       msgpack (~> 1.2)
     brakeman (7.1.2)
       racc
