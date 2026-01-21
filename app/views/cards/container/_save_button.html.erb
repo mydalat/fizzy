@@ -1,7 +1,7 @@
 <div class="card-perma__notch card-perma__notch--bottom flex-column">
   <%= button_tag type: :submit, form: dom_id(card, :edit_form), class: "btn borderless",
         title: "#{t("cards.edit.save_changes")} (#{ hotkey_label(["ctrl", "enter"]) })",
-        data: { controller: "hotkey", action: "keydown.ctrl+enter@document->hotkey#click keydown.meta+enter@document->hotkey#click" } do %>
+        data: { controller: "hotkey", bridge__form_target: "submit", action: "keydown.ctrl+enter@document->hotkey#click keydown.meta+enter@document->hotkey#click" } do %>
     <span><%= t("cards.edit.save_changes") %></span>
   <% end %>
 </div>
