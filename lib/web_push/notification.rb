@@ -20,21 +20,7 @@ class WebPush::Notification
     end
 
     def encoded_message
-      JSON.generate(
-        title: @title,
-        options: {
-          body: @body,
-          icon: icon_path,
-          badge: icon_path,
-          tag: notification_tag,
-          timestamp: Time.current.to_i * 1000,
-          data: { path: @path, badge: @badge }
-        }
-      )
-    end
-
-    def notification_tag
-      "fizzy-#{Digest::SHA256.hexdigest(@path.to_s)[0, 8]}"
+      JSON.generate title: @title, options: { body: @body, icon: icon_path, data: { path: @path, badge: @badge } }
     end
 
     def icon_path

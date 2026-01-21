@@ -15,18 +15,11 @@ self.addEventListener("push", async (event) => {
 })
 
 async function showNotification({ title, options }) {
-  const notificationOptions = {
-    ...options,
-    requireInteraction: false,
-    silent: false
-  }
-  return self.registration.showNotification(title, notificationOptions)
+  return self.registration.showNotification(title, options)
 }
 
-async function updateBadgeCount({ data }) {
-  if (data?.badge !== undefined) {
-    return self.navigator.setAppBadge?.(data.badge || 0)
-  }
+async function updateBadgeCount({ data: { badge } }) {
+  return self.navigator.setAppBadge?.(badge || 0)
 }
 
 self.addEventListener("notificationclick", (event) => {
