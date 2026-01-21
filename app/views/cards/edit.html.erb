@@ -22,6 +22,7 @@
       <%= general_prompts(@card.board) %>
     <% end %>
 
-    <%= link_to t("cards.edit.cancel"), @card, data: { form_target: "cancel" }, hidden: true %>
+    <%= link_to t("cards.edit.cancel"), @card,
+          data: { form_target: "cancel", bridge__form_target: "cancel", bridge_title: t("cards.edit.cancel") }, hidden: true %>
   <% end %>
 <% end %>
