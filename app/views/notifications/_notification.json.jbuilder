@@ -11,8 +11,6 @@ json.cache! notification do
   json.card do
     json.(notification.card, :id, :number, :title, :status)
     json.board_name notification.card.board.name
-    json.has_attachments notification.card.has_attachments?
-    json.assignees notification.card.assignees, partial: "users/user", as: :user
     json.url card_url(notification.card)
     json.column notification.card.column, partial: "columns/column", as: :column if notification.card.column
   end
