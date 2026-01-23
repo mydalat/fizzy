@@ -3,7 +3,7 @@
     <%= icon_tag "trash" %>
     <span><%= t("boards.delete.button") %></span>
   </button>
-  <dialog class="dialog panel fill-white shadow gap flex-column" style="max-width: 40ch" data-dialog-target="dialog">
+  <dialog class="dialog panel fill-white shadow gap flex-column" style="--panel-size: 40ch" data-dialog-target="dialog">
     <h3 class="txt-large txt-bold"><%= t("boards.delete.confirm_title") %></h3>
     <p class="txt-medium margin-block-half"><%= t("boards.delete.confirm_message") %></p>
     <div class="flex gap-half justify-center margin-block-start">
