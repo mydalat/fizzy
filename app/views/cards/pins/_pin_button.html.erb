@@ -1,11 +1,11 @@
 <div id="<%= dom_id(card, :pin_button) %>">
   <% if card.pinned_by? Current.user %>
-    <%= button_to card_pin_path(card), method: :delete, class: "btn btn--reversed",
+    <%= button_to card_pin_path(card), method: :delete, class: "btn btn--reversed btn--circle-mobile",
           data: { controller: "tooltip hotkey", action: "keydown.shift+p@document->hotkey#click", bridge__overflow_menu_target: "item", bridge_title: t("cards.pins.unpin") } do %>
       <%= icon_tag "pinned" %> <span class="for-screen-reader"><%= t("cards.pins.unpin") %></span>
     <% end %>
   <% else %>
-    <%= button_to card_pin_path(card), class: "btn",
+    <%= button_to card_pin_path(card), class: "btn btn--circle-mobile",
           data: { controller: "tooltip hotkey", action: "keydown.shift+p@document->hotkey#click", bridge__overflow_menu_target: "item", bridge_title: t("cards.pins.pin") } do %>
       <%= icon_tag "unpinned" %> <span class="for-screen-reader"><%= t("cards.pins.pin") %></span>
     <% end %>
