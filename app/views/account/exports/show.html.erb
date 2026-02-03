@@ -10,11 +10,11 @@
   </div>
 <% end %>
 
-<div class="panel panel--wide shadow center flex flex-column gap">
-  <h2 class="txt-large margin-none font-weight-black"><%= @page_title %></h2>
+<div class="panel panel--wide shadow center flex flex-column align-center gap">
+  <h2 class="txt-large font-weight-black margin-none"><%= @page_title %></h2>
 
   <% if @export.present? %>
-    <p class="margin-none-block-start"><%= t("account.export.ready_message") %></p>
+    <div><%= t("account.export.ready_message") %></div>
 
     <%= link_to rails_blob_path(@export.file, disposition: "attachment"),
           id: "download-link",
@@ -23,7 +23,7 @@
       <%= t("account.export.download_data") %>
     <% end %>
   <% else %>
-    <p class="margin-none-block-start"><%= t("account.export.expired_message_html", link: link_to(t("account.export.request_new"), account_settings_path, class: "txt-lnk")).html_safe %></p>
+    <div><%= t("account.export.expired_message_html", link: link_to(t("account.export.request_new"), account_settings_path, class: "txt-link")).html_safe %></div>
   <% end %>
 
 </div>
