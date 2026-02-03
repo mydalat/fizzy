@@ -70,6 +70,7 @@ vi:
       no_accounts_title: "Hmm..."
       no_accounts_message: "Bạn chưa có tài khoản Fizzy nào."
       signup_link: "Đăng ký tài khoản Fizzy mới"
+      import_link: "Nhập tài khoản đã xuất"
 
     footer:
       product_name: "CHIPVN"

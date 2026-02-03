@@ -1,19 +1,21 @@
-<header class="margin-block-start-double">
-  <h2 class="divider txt-large"><%= t("account.export.title") %></h2>
-  <p class="margin-none-block"><%= t("account.export.description") %></p>
-</header>
+<section class="settings__section">
+  <header>
+    <h2 class="divider"><%= t("account.export.title") %></h2>
+    <div><%= t("account.export.description") %></div>
+  </header>
 
-<div data-controller="dialog" data-dialog-modal-value="true">
-  <button type="button" class="btn" data-action="dialog#open"><%= t("account.export.button") %></button>
+  <div data-controller="dialog" data-dialog-modal-value="true" data-action="keydown.esc->dialog#close">
+    <button type="button" class="btn" data-action="dialog#open"><%= t("account.export.button") %></button>
 
-  <dialog class="dialog panel panel--wide shadow" data-dialog-target="dialog">
-    <h2 class="margin-none txt-large"><%= t("account.export.dialog_title") %></h2>
-    <p class="margin-none-block-start"><%= t("account.export.dialog_body_1") %></p>
-    <p><%= t("account.export.dialog_body_2") %></p>
+    <dialog class="dialog panel panel--wide shadow" data-dialog-target="dialog" style="--panel-size: 48ch;">
+      <h2 class="txt-large"><%= t("account.export.dialog_title") %></h2>
+      <p><%= t("account.export.dialog_body_1") %></p>
+      <p><%= t("account.export.dialog_body_2") %></p>
 
-    <div class="flex gap justify-center">
-      <%= button_to t("account.export.start_button"), account_exports_path, method: :post, class: "btn btn--link", form: { data: { action: "submit->dialog#close" } } %>
-      <button type="button" class="btn" data-action="dialog#close"><%= t("account.export.cancel") %></button>
-    </div>
-  </dialog>
-</div>
+      <div class="flex gap justify-center">
+        <%= button_to t("account.export.start_button"), account_exports_path, method: :post, class: "btn btn--link", form: { data: { action: "submit->dialog#close" } } %>
+        <button type="button" class="btn" data-action="dialog#close"><%= t("account.export.cancel") %></button>
+      </div>
+    </dialog>
+  </div>
+</section>
