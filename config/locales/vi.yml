@@ -95,6 +95,7 @@ vi:
       name_placeholder: "Nhập họ tên đầy đủ…"
       helper_text: "Chỉ còn một bước nữa. Nhập tên để có tài khoản Fizzy của riêng bạn."
       submit: "Tiếp tục"
+      import_link: "Hoặc nhập tài khoản đã xuất"
 
     join_codes:
       join_title: "Tham gia %{account_name}"
