@@ -49,7 +49,7 @@
   </div>
 
   <% if Current.user == @user %>
-    <div class="settings__panel panel shadow">
+    <div class="settings__panel panel shadow hide-on-native">
       <%= render "users/theme" %>
       <%= render "users/transfer", user: @user %>
       <%= render "users/access_tokens" %>
