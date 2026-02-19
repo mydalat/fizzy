@@ -141,6 +141,65 @@ When upstream changes `@comment` to `@reactable` (or similar polymorphic changes
 - Keep i18n translations
 - Use polymorphic path helpers
 
+### Pattern 6: Settings Section Wrapper
+
+Upstream refactored settings pages to use `<section class="settings__section">` wrapper.
+
+**Conflict looks like**:
+```erb
+<<<<<<< HEAD
+<header>
+  <h2 class="divider txt-large"><%= t("account.entropy.title") %></h2>
+  <p class="margin-none-block-start"><%= t("account.entropy.description") %></p>
+</header>
+=======
+<section class="settings__section">
+  <header>
+    <h2 class="divider">Auto close</h2>
+    <div>Fizzy doesn't let stale cards...</div>
+  </header>
+>>>>>>> upstream/main
+```
+
+**Resolution**: Use new `settings__section` wrapper, keep i18n
+```erb
+<section class="settings__section">
+  <header>
+    <h2 class="divider"><%= t("account.entropy.title") %></h2>
+    <div><%= t("account.entropy.description") %></div>
+  </header>
+```
+
+### Pattern 7: Feature Relocation
+
+When upstream moves a feature to a different page:
+- Follow upstream's new location
+- Add i18n key to the new location
+- Remove from old location (no conflict, just follow upstream)
+
+**Example**: Import link moved from `sessions/menus/show` to `signups/completions/new`
+
+### Pattern 8: CSS Class Rename
+
+Upstream renamed `rich-text-content` to `lexxy-content` (Lexxy editor upgrade).
+
+**Conflict looks like**:
+```erb
+<<<<<<< HEAD
+<%= form.rich_textarea :description, class: "card__description rich-text-content",
+      placeholder: t("cards.edit.description_placeholder"),
+=======
+<%= form.rich_textarea :description, class: "card__description lexxy-content",
+      placeholder: "Add some notes...",
+>>>>>>> upstream/main
+```
+
+**Resolution**: Use new class name, keep i18n
+```erb
+<%= form.rich_textarea :description, class: "card__description lexxy-content",
+      placeholder: t("cards.edit.description_placeholder"),
+```
+
 ## Files That Commonly Have Conflicts
 
 | File | Reason |
@@ -150,11 +209,23 @@ When upstream changes `@comment` to `@reactable` (or similar polymorphic changes
 | `app/views/cards/edit.html.erb` | Cancel link, placeholders |
 | `app/views/cards/pins/_pin_button.html.erb` | Pin/unpin buttons |
 | `app/views/notifications/index.html.erb` | Settings link |
+| `app/views/notifications/settings/show.html.erb` | Boards section header |
 | `app/views/filters/settings/_assignees.html.erb` | Filter dialog title |
 | `app/views/layouts/application.html.erb` | Skip to content link |
 | `app/views/layouts/public.html.erb` | CHIPVN branding |
 | `app/views/sessions/_footer.html.erb` | Support email |
+| `app/views/sessions/menus/show.html.erb` | Account menu text |
+| `app/views/signups/completions/new.html.erb` | Import link (moved here) |
 | `app/views/reactions/new.html.erb` | Reaction form labels |
+| `app/views/account/settings/_entropy.html.erb` | Auto close settings |
+| `app/views/account/settings/_export.html.erb` | Export dialog |
+| `app/views/account/settings/_name.html.erb` | Account name form |
+| `app/views/account/settings/_users.html.erb` | People list |
+| `app/views/account/exports/show.html.erb` | Export download page |
+| `app/views/users/_theme.html.erb` | Theme switcher |
+| `app/views/users/_access_tokens.html.erb` | Developer section |
+| `app/views/account/join_codes/show.html.erb` | QR dialog styles |
+| `app/views/boards/edit/_publication.html.erb` | Rich textarea class |
 
 ## Bridge/Mobile Data Attributes
 
@@ -180,6 +251,40 @@ When upstream adds new features with hardcoded text, add Vietnamese translations
 1. Identify the English text in upstream
 2. Add key to `config/locales/vi.yml`
 3. Replace hardcoded text with `t()` helper
+
+## Major Upstream Features
+
+### Import/Export (added 2025)
+
+Account data can be exported and imported as ZIP files:
+- Export: `app/views/account/settings/_export.html.erb`
+- Import: `app/views/account/imports/new.html.erb`
+- User data export: `app/views/users/_data_export.html.erb`
+
+Import link location changed from account menu to signup completion page.
+
+### Mobile/Native App Support
+
+Upstream is preparing for iOS/Android native apps via Hotwire Native:
+- Associated domains for deep linking
+- Bridge data attributes for native buttons
+- Hidden settings sections on native apps (push notifications, theme, developer)
+- Notifications Tray JSON API for mobile apps
+
+### Lexxy Editor (Feb 2025)
+
+Rich text editor upgraded from Trix to Lexxy:
+- Class renamed: `rich-text-content` → `lexxy-content`
+- Dark mode support
+- Improved table styles
+- Better link dialog
+
+### Notification Stacking (Feb 2025)
+
+Server-side notification grouping:
+- Multiple updates to same card grouped together
+- Email notifications grouped by board
+- New database columns: `card_id`, `unread_count`
 
 ## Testing After Merge
 

@@ -39,8 +39,10 @@
         <span><%= t("account.join_codes.get_qr") %></span>
       <% end %>
 
-      <dialog class="dialog panel shadow" data-dialog-target="dialog">
-        <p class="margin-none-block-start"><strong><%= t("account.join_codes.qr_instruction") %></strong></p>
+      <dialog class="dialog panel shadow" data-dialog-target="dialog" style="--panel-size: 50ch;">
+        <p class="margin-none-block-start txt-balance">
+          <strong><%= t("account.join_codes.qr_instruction") %></strong>
+        </p>
 
         <%= qr_code_image(url) %>
 
