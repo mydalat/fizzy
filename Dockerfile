@@ -75,6 +75,9 @@ USER 1000:1000
 COPY --chown=rails:rails --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --chown=rails:rails --from=build /rails /rails
 
+# Backup db dir so persistent volume mount does not overwrite migrations
+RUN cp -r /rails/db /rails/db.bak
+
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 

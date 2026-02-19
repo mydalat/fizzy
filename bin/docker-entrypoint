@@ -1,5 +1,14 @@
 #!/bin/bash -e
 
+# Restore migration files from image backup (overwritten by volume mount)
+if [ -d "/rails/db.bak" ]; then
+  cp -r /rails/db.bak/migrate /rails/db/ 2>/dev/null || true
+  cp -f /rails/db.bak/schema*.rb /rails/db/ 2>/dev/null || true
+  cp -f /rails/db.bak/*_schema.rb /rails/db/ 2>/dev/null || true
+  cp -rn /rails/db.bak/seeds* /rails/db/ 2>/dev/null || true
+  echo "[entrypoint] Synced migration files from image to volume"
+fi
+
 # If running the rails server then create or migrate existing database
 if [ "${1}" == "./bin/thrust" ] && [ "${2}" == "./bin/rails" ] && [ "${3}" == "server" ]; then
   MIGRATE=1 ./bin/rails db:prepare
