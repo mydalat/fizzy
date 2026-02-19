@@ -179,6 +179,27 @@ When upstream moves a feature to a different page:
 
 **Example**: Import link moved from `sessions/menus/show` to `signups/completions/new`
 
+### Pattern 8: CSS Class Rename
+
+Upstream renamed `rich-text-content` to `lexxy-content` (Lexxy editor upgrade).
+
+**Conflict looks like**:
+```erb
+<<<<<<< HEAD
+<%= form.rich_textarea :description, class: "card__description rich-text-content",
+      placeholder: t("cards.edit.description_placeholder"),
+=======
+<%= form.rich_textarea :description, class: "card__description lexxy-content",
+      placeholder: "Add some notes...",
+>>>>>>> upstream/main
+```
+
+**Resolution**: Use new class name, keep i18n
+```erb
+<%= form.rich_textarea :description, class: "card__description lexxy-content",
+      placeholder: t("cards.edit.description_placeholder"),
+```
+
 ## Files That Commonly Have Conflicts
 
 | File | Reason |
@@ -203,6 +224,8 @@ When upstream moves a feature to a different page:
 | `app/views/account/exports/show.html.erb` | Export download page |
 | `app/views/users/_theme.html.erb` | Theme switcher |
 | `app/views/users/_access_tokens.html.erb` | Developer section |
+| `app/views/account/join_codes/show.html.erb` | QR dialog styles |
+| `app/views/boards/edit/_publication.html.erb` | Rich textarea class |
 
 ## Bridge/Mobile Data Attributes
 
@@ -246,6 +269,22 @@ Upstream is preparing for iOS/Android native apps via Hotwire Native:
 - Associated domains for deep linking
 - Bridge data attributes for native buttons
 - Hidden settings sections on native apps (push notifications, theme, developer)
+- Notifications Tray JSON API for mobile apps
+
+### Lexxy Editor (Feb 2025)
+
+Rich text editor upgraded from Trix to Lexxy:
+- Class renamed: `rich-text-content` → `lexxy-content`
+- Dark mode support
+- Improved table styles
+- Better link dialog
+
+### Notification Stacking (Feb 2025)
+
+Server-side notification grouping:
+- Multiple updates to same card grouped together
+- Email notifications grouped by board
+- New database columns: `card_id`, `unread_count`
 
 ## Testing After Merge
 
