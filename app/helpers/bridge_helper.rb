@@ -10,4 +10,14 @@ module BridgeHelper
       bridge_title: "Go to #{board.name}"
     }
   end
+
+  def bridged_share_button(type = nil)
+    tag.button "Share", hidden: true, data: {
+      controller: "bridge--share",
+      action: "bridge--share#share",
+      bridge__overflow_menu_target: "item",
+      bridge_title: "Share",
+      bridge_share_type: type
+    }
+  end
 end
