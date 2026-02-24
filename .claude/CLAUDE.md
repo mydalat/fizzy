@@ -301,3 +301,41 @@ Uses Coolify with Docker. Key environment variables:
 - `RAILS_ENV=production`
 - `VAPID_PRIVATE_KEY=...` (for push notifications)
 - `VAPID_PUBLIC_KEY=...`
+
+### Volume Mount for SQLite Persistence
+
+Coolify mounts `/data/fizzy/db` → `/rails/db` to persist SQLite databases between deploys.
+
+**Problem**: Volume mount overwrites migration files from Docker image.
+
+**Solution** (implemented in `Dockerfile` and `bin/docker-entrypoint`):
+
+```
+Docker build:
+  /rails/db/      ← migrate/, schema.rb, seeds.rb (from source)
+  /rails/db.bak/  ← backup copy (RUN cp -r before USER switch)
+
+Container start:
+  /rails/db/      ← only SQLite files from persistent volume
+  /rails/db.bak/  ← intact (not mounted)
+
+Entrypoint:
+  1. Restore migrate/, schema*.rb from db.bak → db
+  2. Run db:prepare (applies new migrations)
+  3. Start server
+```
+
+**Files involved**:
+- `Dockerfile`: `RUN cp -r /rails/db /rails/db.bak` (before `USER 1000:1000`)
+- `bin/docker-entrypoint`: Copies migration files from backup at startup
+
+**Data safety**: Only migration files (Ruby code) are synced. SQLite data files (`*.sqlite3`) are never touched.
+
+### Gemfile Changes
+
+When adding/removing gems:
+1. Edit `Gemfile`
+2. Run `bundle install`
+3. Commit both `Gemfile` AND `Gemfile.lock`
+
+Docker builds in frozen mode - missing lockfile updates will fail the build.
