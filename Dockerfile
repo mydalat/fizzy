@@ -69,14 +69,16 @@ LABEL org.opencontainers.image.licenses="O'Saasy"
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash
-USER 1000:1000
 
 # Copy built artifacts: gems, application
 COPY --chown=rails:rails --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --chown=rails:rails --from=build /rails /rails
 
 # Backup db dir so persistent volume mount does not overwrite migrations
-RUN cp -r /rails/db /rails/db.bak
+RUN cp -r /rails/db /rails/db.bak && chown -R rails:rails /rails/db.bak
+
+# Switch to non-root user for security
+USER 1000:1000
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
