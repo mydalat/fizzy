@@ -1,6 +1,6 @@
 class WebPush::Notification
-  def initialize(title:, body:, path:, badge:, endpoint:, endpoint_ip:, p256dh_key:, auth_key:)
-    @title, @body, @path, @badge = title, body, path, badge
+  def initialize(title:, body:, url:, badge:, endpoint:, endpoint_ip:, p256dh_key:, auth_key:)
+    @title, @body, @url, @badge = title, body, url, badge
     @endpoint, @endpoint_ip, @p256dh_key, @auth_key = endpoint, endpoint_ip, p256dh_key, auth_key
   end
 
@@ -28,13 +28,13 @@ class WebPush::Notification
           badge: icon_path,
           tag: notification_tag,
           timestamp: Time.current.to_i * 1000,
-          data: { path: @path, badge: @badge }
+          data: { url: @url, path: @url, badge: @badge }
         }
       )
     end
 
     def notification_tag
-      "fizzy-#{Digest::SHA256.hexdigest(@path.to_s)[0, 8]}"
+      "fizzy-#{Digest::SHA256.hexdigest(@url.to_s)[0, 8]}"
     end
 
     def icon_path
