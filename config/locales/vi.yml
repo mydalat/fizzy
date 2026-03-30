@@ -17,6 +17,8 @@ vi:
       product_name: "Fizzy™"
       designed_by: "được thiết kế, xây dựng và hỗ trợ bởi"
       company_name: "37signals™"
+      makers_of: "nhà phát triển của"
+      and: "và"
 
   navigation:
     home: "Trang chủ"
@@ -283,6 +285,7 @@ vi:
       send_email: "gửi email cho chúng tôi"
 
     logout: "Đăng xuất"
+    manage_passkeys: "Quản lý Passkey"
 
     theme:
       title: "Giao diện"
