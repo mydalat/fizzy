@@ -267,6 +267,26 @@ async function resolveTagId(title: string): Promise<string> {
   throw new Error(`Tag not found: "${title}"`);
 }
 
+async function resolveStepId(
+  cardNumber: number,
+  ref: string
+): Promise<string> {
+  if (isLikelyId(ref)) return ref;
+  const card = await taskFetch(`/cards/${cardNumber}`);
+  const steps: any[] = card.steps ?? [];
+  if (!steps.length) throw new Error(`Card #${cardNumber} has no steps`);
+  const idx = parseInt(ref, 10);
+  if (!isNaN(idx) && String(idx) === ref.trim() && idx >= 1 && idx <= steps.length) {
+    return steps[idx - 1].id;
+  }
+  const target = norm(ref);
+  const exact = steps.find((s: any) => norm(s.content ?? "") === target);
+  if (exact) return exact.id;
+  const partial = steps.find((s: any) => norm(s.content ?? "").includes(target));
+  if (partial) return partial.id;
+  throw new Error(`Step not found in #${cardNumber}: "${ref}"`);
+}
+
 // ============================================================
 // MCP TOOL DEFINITIONS
 // ============================================================
@@ -403,6 +423,32 @@ const MCP_TOOLS: ToolDefinition[] = [
       },
     },
   },
+  {
+    name: "task_step",
+    description:
+      "Manage steps (todo items) on card: add|set|delete.",
+    inputSchema: {
+      type: "object",
+      required: ["number", "op"],
+      properties: {
+        number: { type: "integer" },
+        op: { type: "string", enum: ["add", "set", "delete"] },
+        step: {
+          type: "string",
+          description:
+            "Step id, 1-based index, or content match (required for set/delete)",
+        },
+        text: {
+          type: "string",
+          description: "Content for add or rename",
+        },
+        done: {
+          type: "boolean",
+          description: "Completed state",
+        },
+      },
+    },
+  },
 ];
 
 // ============================================================
@@ -509,9 +555,9 @@ async function handleToolCall(
       if (steps.length) {
         lines.push("");
         lines.push("steps:");
-        for (const s of steps) {
-          lines.push(`- [${s.completed ? "x" : " "}] ${s.content}`);
-        }
+        steps.forEach((s: any, i: number) => {
+          lines.push(`${i + 1}. [${s.completed ? "x" : " "}] ${s.content}`);
+        });
       }
       return lines.join("\n");
     }
@@ -625,6 +671,47 @@ async function handleToolCall(
           throw new Error(`Unknown op: ${args.op}`);
       }
       return `ok: ${args.op} #${n}`;
+    }
+
+    case "task_step": {
+      const n = args.number;
+      switch (args.op) {
+        case "add": {
+          if (!args.text) throw new Error("add requires text");
+          const step: Record<string, unknown> = { content: args.text };
+          if (args.done !== undefined) step.completed = args.done;
+          await taskFetch(`/cards/${n}/steps`, {
+            method: "POST",
+            body: JSON.stringify({ step }),
+          });
+          return `ok: step added on #${n}`;
+        }
+        case "set": {
+          if (!args.step) throw new Error("set requires step");
+          const stepId = await resolveStepId(n, args.step);
+          const step: Record<string, unknown> = {};
+          if (args.text !== undefined) step.content = args.text;
+          if (args.done !== undefined) step.completed = args.done;
+          if (Object.keys(step).length === 0) {
+            return "noop: nothing to set (provide text or done)";
+          }
+          await taskFetch(`/cards/${n}/steps/${stepId}`, {
+            method: "PUT",
+            body: JSON.stringify({ step }),
+          });
+          return `ok: step updated on #${n}`;
+        }
+        case "delete": {
+          if (!args.step) throw new Error("delete requires step");
+          const stepId = await resolveStepId(n, args.step);
+          await taskFetch(`/cards/${n}/steps/${stepId}`, {
+            method: "DELETE",
+          });
+          return `ok: step deleted on #${n}`;
+        }
+        default:
+          throw new Error(`Unknown step op: ${args.op}`);
+      }
     }
 
     default:

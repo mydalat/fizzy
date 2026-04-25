@@ -26,7 +26,7 @@ Single-file MCP (Model Context Protocol) server JSON-RPC 2.0. Cho phép AI agent
 | Resource | `f/task/config` | `{ base_url, account_id }` |
 | Variable | `f/task/access_token` | Personal token (secret) |
 
-### Tools (10)
+### Tools (11)
 
 | Tool | Mô tả |
 |---|---|
@@ -34,12 +34,34 @@ Single-file MCP (Model Context Protocol) server JSON-RPC 2.0. Cho phép AI agent
 | `task_columns` | List columns of a board |
 | `task_users` | List active users |
 | `task_cards_list` | List/filter cards (markdown table) |
-| `task_card_get` | Card detail by number |
+| `task_card_get` | Card detail by number (kèm steps đánh số 1-based) |
 | `task_card_create` | Create card on a board |
 | `task_card_update` | Update title/description |
 | `task_card_move` | Move card to column (empty = back to triage) |
 | `task_card_close` | Close / reopen |
 | `task_card_op` | Misc: not_now/delete/comment/tag/assign/unassign |
+| `task_step` | Manage steps (todo): add / set (rename + check) / delete |
+
+#### `task_step` — chi tiết
+
+`step` arg chấp nhận: step UUID, 1-based index từ `task_card_get`, hoặc fuzzy match theo content.
+
+```jsonc
+// add 1 step mới
+{ "op": "add",    "number": 42, "text": "Write tests" }
+
+// đánh dấu HOÀN THÀNH step số 2
+{ "op": "set",    "number": 42, "step": "2", "done": true }
+
+// bỏ đánh dấu (chưa hoàn thành) step số 2
+{ "op": "set",    "number": 42, "step": "2", "done": false }
+
+// đổi nội dung step có chữ "Write tests"
+{ "op": "set",    "number": 42, "step": "Write tests", "text": "Write integration tests" }
+
+// XÓA step
+{ "op": "delete", "number": 42, "step": "3" }
+```
 
 ---
 
