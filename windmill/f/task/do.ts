@@ -1,11 +1,11 @@
-// dochipvn MCP Server for Windmill (Bun runtime)
+// Task MCP Server for Windmill (Bun runtime)
 // JSON-RPC 2.0 — Self-contained: 10 tools for AI agents to manage tasks/todos.
 //
 // Credentials:
-//   - Resource: f/dochipvn/config = { base_url, account_id }
-//   - Variable: f/dochipvn/access_token (secret, scope read+write)
+//   - Resource:  f/task/config       (type: task_config)
+//   - Variable:  f/task/access_token (secret, scope read+write)
 //
-// Deploy path: f/reporting/dochipvn_mcp
+// Deploy path: f/task/do
 
 import * as wmill from "windmill-client@1";
 
@@ -30,7 +30,8 @@ interface ToolDefinition {
   };
 }
 
-interface DochipConfig {
+// Mirrors the Windmill resource type `task_config`.
+interface TaskConfig {
   base_url: string;
   account_id: string;
 }
@@ -39,24 +40,24 @@ interface DochipConfig {
 // CONFIG / FETCH / AUTH
 // ============================================================
 
-let _cfgCache: DochipConfig | null = null;
+let _cfgCache: TaskConfig | null = null;
 let _tokenCache: string | null = null;
 
-async function getConfig(): Promise<DochipConfig> {
+async function getConfig(): Promise<TaskConfig> {
   if (!_cfgCache) {
-    _cfgCache = (await wmill.getResource("f/dochipvn/config")) as DochipConfig;
+    _cfgCache = (await wmill.getResource("f/task/config")) as TaskConfig;
   }
   return _cfgCache;
 }
 
 async function getToken(): Promise<string> {
   if (!_tokenCache) {
-    _tokenCache = await wmill.getVariable("f/dochipvn/access_token");
+    _tokenCache = await wmill.getVariable("f/task/access_token");
   }
   return _tokenCache;
 }
 
-async function dochipFetch(path: string, init: RequestInit = {}): Promise<any> {
+async function taskFetch(path: string, init: RequestInit = {}): Promise<any> {
   const cfg = await getConfig();
   const token = await getToken();
   const url = path.startsWith("http")
@@ -75,7 +76,7 @@ async function dochipFetch(path: string, init: RequestInit = {}): Promise<any> {
   const res = await fetch(url, { ...init, headers });
 
   if (res.status === 401) {
-    throw new Error("AUTH_EXPIRED: refresh f/dochipvn/access_token");
+    throw new Error("AUTH_EXPIRED: refresh f/task/access_token");
   }
   if (res.status === 429) {
     throw new Error(
@@ -189,24 +190,24 @@ const isLikelyId = (s: string): boolean =>
   /^[a-z0-9]{20,}$/i.test(s) || /^[0-9a-f-]{30,}$/i.test(s);
 
 async function getAllBoards(): Promise<any[]> {
-  if (!boardsCache) boardsCache = (await dochipFetch("/boards")) ?? [];
+  if (!boardsCache) boardsCache = (await taskFetch("/boards")) ?? [];
   return boardsCache!;
 }
 
 async function getAllUsers(): Promise<any[]> {
-  if (!usersCache) usersCache = (await dochipFetch("/users")) ?? [];
+  if (!usersCache) usersCache = (await taskFetch("/users")) ?? [];
   return usersCache!;
 }
 
 async function getAllTags(): Promise<any[]> {
-  if (!tagsCache) tagsCache = (await dochipFetch("/tags")) ?? [];
+  if (!tagsCache) tagsCache = (await taskFetch("/tags")) ?? [];
   return tagsCache!;
 }
 
 async function getColumns(boardId: string): Promise<any[]> {
   if (!columnsCache[boardId]) {
     columnsCache[boardId] =
-      (await dochipFetch(`/boards/${boardId}/columns`)) ?? [];
+      (await taskFetch(`/boards/${boardId}/columns`)) ?? [];
   }
   return columnsCache[boardId];
 }
@@ -272,12 +273,12 @@ async function resolveTagId(title: string): Promise<string> {
 
 const MCP_TOOLS: ToolDefinition[] = [
   {
-    name: "dochip_boards",
+    name: "task_boards",
     description: "List boards.",
     inputSchema: { type: "object", properties: {} },
   },
   {
-    name: "dochip_columns",
+    name: "task_columns",
     description: "List columns of a board.",
     inputSchema: {
       type: "object",
@@ -288,12 +289,12 @@ const MCP_TOOLS: ToolDefinition[] = [
     },
   },
   {
-    name: "dochip_users",
+    name: "task_users",
     description: "List active users.",
     inputSchema: { type: "object", properties: {} },
   },
   {
-    name: "dochip_cards_list",
+    name: "task_cards_list",
     description:
       "List cards. Filter by board/column/assignee/tag/state/term.",
     inputSchema: {
@@ -318,7 +319,7 @@ const MCP_TOOLS: ToolDefinition[] = [
     },
   },
   {
-    name: "dochip_card_get",
+    name: "task_card_get",
     description: "Get card detail by number.",
     inputSchema: {
       type: "object",
@@ -327,7 +328,7 @@ const MCP_TOOLS: ToolDefinition[] = [
     },
   },
   {
-    name: "dochip_card_create",
+    name: "task_card_create",
     description: "Create card on a board.",
     inputSchema: {
       type: "object",
@@ -341,7 +342,7 @@ const MCP_TOOLS: ToolDefinition[] = [
     },
   },
   {
-    name: "dochip_card_update",
+    name: "task_card_update",
     description: "Update card title/description.",
     inputSchema: {
       type: "object",
@@ -354,7 +355,7 @@ const MCP_TOOLS: ToolDefinition[] = [
     },
   },
   {
-    name: "dochip_card_move",
+    name: "task_card_move",
     description: "Move card to column. Empty column = back to triage.",
     inputSchema: {
       type: "object",
@@ -366,7 +367,7 @@ const MCP_TOOLS: ToolDefinition[] = [
     },
   },
   {
-    name: "dochip_card_close",
+    name: "task_card_close",
     description: "Close or reopen card.",
     inputSchema: {
       type: "object",
@@ -378,7 +379,7 @@ const MCP_TOOLS: ToolDefinition[] = [
     },
   },
   {
-    name: "dochip_card_op",
+    name: "task_card_op",
     description:
       "Misc op: not_now|delete|comment|tag|assign|unassign.",
     inputSchema: {
@@ -413,7 +414,7 @@ async function handleToolCall(
   args: Record<string, any>
 ): Promise<string> {
   switch (toolName) {
-    case "dochip_boards": {
+    case "task_boards": {
       const boards = await getAllBoards();
       return formatList(boards, [
         { key: "name", label: "name" },
@@ -428,7 +429,7 @@ async function handleToolCall(
       ]);
     }
 
-    case "dochip_columns": {
+    case "task_columns": {
       const boardId = await resolveBoardId(args.board);
       const cols = await getColumns(boardId);
       return formatList(cols, [
@@ -437,7 +438,7 @@ async function handleToolCall(
       ]);
     }
 
-    case "dochip_users": {
+    case "task_users": {
       const users = await getAllUsers();
       return formatList(users, [
         { key: "name", label: "name" },
@@ -446,7 +447,7 @@ async function handleToolCall(
       ]);
     }
 
-    case "dochip_cards_list": {
+    case "task_cards_list": {
       const q = new URLSearchParams();
 
       let boardId: string | null = null;
@@ -473,14 +474,14 @@ async function handleToolCall(
       if (args.term) q.append("terms[]", args.term);
       q.set("sorted_by", args.sort ?? "latest");
 
-      const cards = (await dochipFetch(`/cards?${q.toString()}`)) ?? [];
+      const cards = (await taskFetch(`/cards?${q.toString()}`)) ?? [];
       const limit = Math.min(Math.max(args.limit ?? 20, 1), 100);
       const limited = cards.slice(0, limit);
       return formatCardsTable(limited);
     }
 
-    case "dochip_card_get": {
-      const c = await dochipFetch(`/cards/${args.number}`);
+    case "task_card_get": {
+      const c = await taskFetch(`/cards/${args.number}`);
       const lines: string[] = [];
       lines.push(`#${c.number}: ${c.title}`);
       lines.push(
@@ -515,12 +516,12 @@ async function handleToolCall(
       return lines.join("\n");
     }
 
-    case "dochip_card_create": {
+    case "task_card_create": {
       const boardId = await resolveBoardId(args.board);
       const tag_ids = args.tags
         ? await Promise.all(args.tags.map(resolveTagId))
         : undefined;
-      const created = await dochipFetch(`/boards/${boardId}/cards`, {
+      const created = await taskFetch(`/boards/${boardId}/cards`, {
         method: "POST",
         body: JSON.stringify({
           card: {
@@ -534,30 +535,30 @@ async function handleToolCall(
       return `ok: created #${num}`;
     }
 
-    case "dochip_card_update": {
+    case "task_card_update": {
       const card: Record<string, unknown> = {};
       if (args.title !== undefined) card.title = args.title;
       if (args.description !== undefined) card.description = args.description;
       if (Object.keys(card).length === 0) {
         return "noop: nothing to update";
       }
-      await dochipFetch(`/cards/${args.number}`, {
+      await taskFetch(`/cards/${args.number}`, {
         method: "PUT",
         body: JSON.stringify({ card }),
       });
       return `ok: updated #${args.number}`;
     }
 
-    case "dochip_card_move": {
+    case "task_card_move": {
       if (!args.column) {
-        await dochipFetch(`/cards/${args.number}/triage`, {
+        await taskFetch(`/cards/${args.number}/triage`, {
           method: "DELETE",
         });
         return `ok: #${args.number} → triage`;
       }
-      const card = await dochipFetch(`/cards/${args.number}`);
+      const card = await taskFetch(`/cards/${args.number}`);
       const colId = await resolveColumnId(card.board.id, args.column);
-      await dochipFetch(`/cards/${args.number}/triage`, {
+      await taskFetch(`/cards/${args.number}/triage`, {
         method: "POST",
         body: new URLSearchParams({ column_id: colId }),
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -565,8 +566,8 @@ async function handleToolCall(
       return `ok: moved #${args.number} → ${args.column}`;
     }
 
-    case "dochip_card_close": {
-      await dochipFetch(`/cards/${args.number}/closure`, {
+    case "task_card_close": {
+      await taskFetch(`/cards/${args.number}/closure`, {
         method: args.reopen ? "DELETE" : "POST",
       });
       return args.reopen
@@ -574,25 +575,25 @@ async function handleToolCall(
         : `ok: closed #${args.number}`;
     }
 
-    case "dochip_card_op": {
+    case "task_card_op": {
       const n = args.number;
       switch (args.op) {
         case "not_now":
-          await dochipFetch(`/cards/${n}/not_now`, { method: "POST" });
+          await taskFetch(`/cards/${n}/not_now`, { method: "POST" });
           break;
         case "delete":
-          await dochipFetch(`/cards/${n}`, { method: "DELETE" });
+          await taskFetch(`/cards/${n}`, { method: "DELETE" });
           break;
         case "comment":
           if (!args.text) throw new Error("comment requires text");
-          await dochipFetch(`/cards/${n}/comments`, {
+          await taskFetch(`/cards/${n}/comments`, {
             method: "POST",
             body: JSON.stringify({ comment: { body: args.text } }),
           });
           break;
         case "tag":
           if (!args.text) throw new Error("tag requires text (tag title)");
-          await dochipFetch(`/cards/${n}/taggings`, {
+          await taskFetch(`/cards/${n}/taggings`, {
             method: "POST",
             body: new URLSearchParams({ tag_title: args.text }),
             headers: {
@@ -602,7 +603,7 @@ async function handleToolCall(
           break;
         case "assign":
           if (!args.user) throw new Error("assign requires user");
-          await dochipFetch(`/cards/${n}/assignments`, {
+          await taskFetch(`/cards/${n}/assignments`, {
             method: "POST",
             body: new URLSearchParams({
               assignee_id: await resolveUserId(args.user),
@@ -615,7 +616,7 @@ async function handleToolCall(
         case "unassign": {
           if (!args.user) throw new Error("unassign requires user");
           const uid = await resolveUserId(args.user);
-          await dochipFetch(`/cards/${n}/assignments/${uid}`, {
+          await taskFetch(`/cards/${n}/assignments/${uid}`, {
             method: "DELETE",
           });
           break;
@@ -651,7 +652,7 @@ export async function main(
           id: rpcId,
           result: {
             protocolVersion: "2024-11-05",
-            serverInfo: { name: "dochipvn-mcp", version: "1.0.0" },
+            serverInfo: { name: "task-mcp", version: "1.0.0" },
             capabilities: { tools: { listChanged: false } },
           },
         };
