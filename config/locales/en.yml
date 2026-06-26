@@ -33,14 +33,23 @@ en:
   # CHIPVN: keys here are the minimum English overrides needed for upstream tests
   # to pass. They mirror the vi.yml keys that test/* asserts against. Missing
   # keys fall back to :vi (see config/environments/test.rb).
+  navigation:
+    home: "Home"
+
   signups:
     join_codes:
+      join_title: "Join %{account_name}"
+      email_placeholder: "Email address"
       code_inactive:
         title: "That code is all used up"
 
   cards:
+    add_card: "Add a card"
     delete:
       button: "Delete this card"
+
+  comments:
+    post: "Post"
 
   boards:
     access:
@@ -54,6 +63,8 @@ en:
   account:
     export:
       expired_title: "Download Expired"
+    people:
+      invite: "Invite people"
 
   activerecord:
     errors:
