@@ -70,4 +70,10 @@ Rails.application.configure do
 
   # Enable multi-tenant mode for tests
   config.x.multi_tenant.enabled = true
+
+  # CHIPVN: upstream tests assert English strings. Force :en in tests with :vi
+  # fallback so untranslated keys still render (Vietnamese), and tests asserting
+  # specific English text get them from en.yml.
+  config.i18n.default_locale = :en
+  config.i18n.fallbacks = { en: :vi }
 end

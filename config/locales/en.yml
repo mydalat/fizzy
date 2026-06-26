@@ -30,6 +30,17 @@
 en:
   hello: "Hello world"
 
+  # CHIPVN: keys here are the minimum English overrides needed for upstream tests
+  # to pass. They mirror the vi.yml keys that test/* asserts against. Missing
+  # keys fall back to :vi (see config/environments/test.rb).
+  cards:
+    delete:
+      button: "Delete this card"
+
+  account:
+    export:
+      expired_title: "Download Expired"
+
   notifications:
     body:
       assigned_to: "Assigned to %{assignees}"

@@ -14,7 +14,8 @@ class Signup::AccountNameGenerator
     if next_index == 1
       "#{prefix} #{SUFFIX}"
     else
-      "#{prefix} #{next_index.ordinalize} #{SUFFIX}"
+      # Use English ordinals regardless of locale: nth_account_name_regex matches "1st/2nd/3rd/Nth" only.
+      "#{prefix} #{I18n.with_locale(:en) { next_index.ordinalize }} #{SUFFIX}"
     end
   end
 
