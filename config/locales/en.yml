@@ -40,7 +40,18 @@ en:
     index:
       home: "Home"
 
+  common:
+    buttons:
+      continue: "Continue"
+
+  sessions:
+    magic_links:
+      title: "Check your email"
+
   signups:
+    completions:
+      name_placeholder: "Full name"
+      submit: "Continue"
     join_codes:
       join_title: "Join %{account_name}"
       email_placeholder: "Email address"
