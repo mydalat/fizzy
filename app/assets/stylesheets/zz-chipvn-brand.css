@@ -1,0 +1,75 @@
+/* ============================================================================
+   CHIP.VN brand skin — ghi đè lớp alias màu của Fizzy
+   ----------------------------------------------------------------------------
+   Nguồn chuẩn: CHIP.VN Design System (tokens/colors.css).
+   Chỉ chạm LỚP ABSTRACTION `--color-*` mà component đọc — KHÔNG sửa thang
+   `--lch-*` gốc, KHÔNG sửa component, KHÔNG đụng file upstream nào.
+
+   Vì sao tên "zz-": Fizzy nạp toàn bộ app/assets/**/*.css theo thứ tự alphabet
+   (stylesheet_link_tag :app). Prefix "zz-" đảm bảo file này nạp CUỐI CÙNG nên
+   các :root/[data-theme] override ở đây luôn thắng cascade.
+
+   Đổi/gỡ brand = chỉ sửa/xoá đúng file này. Merge upstream vẫn sạch 0 xung đột.
+
+   Map: --color-link/card-default/maybe/selected* → NAVY (hành động, brand chính)
+        --color-golden/marker            → CAM accent (điểm nhấn, ghim)
+        --color-highlight                → SAND (highlight chữ)
+        --color-positive/negative        → success/error của guide
+        Giữ nguyên: neutral/ink/canvas, --color-card-1..8 (màu thẻ do user chọn)
+   ============================================================================ */
+
+/* ---- LIGHT ---- (nạp sau _global.css → :root này thắng) */
+:root {
+  --color-link: #144C99;           /* navy-600 · link, nút chính, tab active */
+  --color-card-default: #144C99;   /* vạch màu mặc định của thẻ */
+  --color-maybe: #144C99;          /* trạng thái "maybe" / info = navy */
+
+  --color-selected-light: #F3F7FD; /* nền chọn rất nhạt */
+  --color-selected: #EBF1FB;       /* navy-50 · nền mục đang chọn */
+  --color-selected-dark: #D8E4F8;  /* navy-100 · viền mục đang chọn */
+
+  --color-golden: #E97750;         /* orange-400 · ghim / thẻ nổi bật (gild) */
+  --color-marker: #C2410C;         /* orange-600 · icon nhấn */
+  --color-highlight: #F5F1D9;      /* sand-100 · nền highlight chữ */
+
+  --color-positive: #1A7F4B;       /* success */
+  --color-negative: #C0392B;       /* error */
+}
+
+/* ---- DARK: bật thủ công qua theme switcher ---- */
+html[data-theme="dark"] {
+  --color-link: #5588D6;
+  --color-card-default: #5588D6;
+  --color-maybe: #86ABE6;
+
+  --color-selected-light: #16233A;
+  --color-selected: #1E2E4A;
+  --color-selected-dark: #2C4670;
+
+  --color-golden: #E97750;
+  --color-marker: #F09E7E;
+  --color-highlight: #3A3624;
+
+  --color-positive: #3FA872;
+  --color-negative: #E4746B;
+}
+
+/* ---- DARK: theo hệ điều hành (khi user chưa chọn thủ công) ---- */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --color-link: #5588D6;
+    --color-card-default: #5588D6;
+    --color-maybe: #86ABE6;
+
+    --color-selected-light: #16233A;
+    --color-selected: #1E2E4A;
+    --color-selected-dark: #2C4670;
+
+    --color-golden: #E97750;
+    --color-marker: #F09E7E;
+    --color-highlight: #3A3624;
+
+    --color-positive: #3FA872;
+    --color-negative: #E4746B;
+  }
+}

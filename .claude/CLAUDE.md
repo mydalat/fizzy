@@ -86,6 +86,16 @@ All user-facing text uses Rails i18n with `t()` helper instead of hardcoded Engl
 
 **Logo location**: `app/assets/images/logo.png`
 
+**Brand color skin**: `app/assets/stylesheets/zz-chipvn-brand.css`
+- Overrides Fizzy's `--color-*` abstraction layer with CHIP.VN tokens (navy primary,
+  orange accent, sand tint) for both light and dark themes.
+- The `zz-` prefix guarantees it loads LAST (Propshaft's `stylesheet_link_tag :app`
+  loads `app/assets/**/*.css` alphabetically) so its `:root`/`[data-theme]` overrides
+  win the cascade.
+- Touches ONLY the abstraction tokens — never the raw `--lch-*` scales or components,
+  so upstream merges stay conflict-free. Removing the brand skin = delete this one file.
+- Keeps Fizzy's neutrals/ink and the user-selectable card palette (`--color-card-1..8`).
+
 **Public layout** (`app/views/layouts/public.html.erb`):
 - Uses CHIPVN SVG logo instead of Fizzy logo
 - Links to `root_path` instead of `fizzy.do`
