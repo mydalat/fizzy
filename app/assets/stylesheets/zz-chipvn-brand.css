@@ -5,9 +5,9 @@
    Chỉ chạm LỚP ABSTRACTION `--color-*` mà component đọc — KHÔNG sửa thang
    `--lch-*` gốc, KHÔNG sửa component, KHÔNG đụng file upstream nào.
 
-   Vì sao tên "zz-": Fizzy nạp toàn bộ app/assets/**/*.css theo thứ tự alphabet
-   (stylesheet_link_tag :app). Prefix "zz-" đảm bảo file này nạp CUỐI CÙNG nên
-   các :root/[data-theme] override ở đây luôn thắng cascade.
+   Vì sao tên "zz-": Fizzy nạp mọi file .css trong app/assets theo thứ tự
+   alphabet (stylesheet_link_tag :app). Prefix "zz-" đảm bảo file này nạp CUỐI
+   CÙNG nên các :root/[data-theme] override ở đây luôn thắng cascade.
 
    Đổi/gỡ brand = chỉ sửa/xoá đúng file này. Merge upstream vẫn sạch 0 xung đột.
 
