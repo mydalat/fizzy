@@ -12,7 +12,8 @@
    Đổi/gỡ brand = chỉ sửa/xoá đúng file này. Merge upstream vẫn sạch 0 xung đột.
 
    Map: --color-link/card-default/maybe/selected* → NAVY (hành động, brand chính)
-        --color-golden/marker            → CAM accent (điểm nhấn, ghim)
+        --color-golden                   → VÀNG-gold (ghim/gild, ăn với logo)
+        --color-marker                   → CAM accent (icon nhấn)
         --color-highlight                → SAND (highlight chữ)
         --color-positive/negative        → success/error của guide
         Giữ nguyên: neutral/ink/canvas, --color-card-1..8 (màu thẻ do user chọn)
@@ -28,7 +29,7 @@
   --color-selected: #EBF1FB;       /* navy-50 · nền mục đang chọn */
   --color-selected-dark: #D8E4F8;  /* navy-100 · viền mục đang chọn */
 
-  --color-golden: #E97750;         /* orange-400 · ghim / thẻ nổi bật (gild) */
+  --color-golden: #EAB308;         /* vàng-gold · ghim / thẻ nổi bật (gild) — ăn với chấm logo */
   --color-marker: #C2410C;         /* orange-600 · icon nhấn */
   --color-highlight: #F5F1D9;      /* sand-100 · nền highlight chữ */
 
@@ -46,7 +47,7 @@ html[data-theme="dark"] {
   --color-selected: #1E2E4A;
   --color-selected-dark: #2C4670;
 
-  --color-golden: #E97750;
+  --color-golden: #F2C94C;
   --color-marker: #F09E7E;
   --color-highlight: #3A3624;
 
@@ -65,7 +66,7 @@ html[data-theme="dark"] {
     --color-selected: #1E2E4A;
     --color-selected-dark: #2C4670;
 
-    --color-golden: #E97750;
+    --color-golden: #F2C94C;
     --color-marker: #F09E7E;
     --color-highlight: #3A3624;
 
