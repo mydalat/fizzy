@@ -543,6 +543,9 @@ GEM
     rails-html-sanitizer (1.7.1)
       loofah (~> 2.25, >= 2.25.2)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
+    rails-i18n (8.1.0)
+      i18n (>= 0.7, < 2)
+      railties (>= 8.0.0, < 9)
     rainbow (3.1.1)
     rake (13.4.2)
     rake-compiler-dock (1.9.1)
@@ -757,6 +760,7 @@ DEPENDENCIES
   queenbee!
   rack-mini-profiler
   rails!
+  rails-i18n (~> 8.0)
   rails_structured_logging!
   rouge
   rqrcode
